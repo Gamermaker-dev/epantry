@@ -1,0 +1,25 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+pantry-client/node_modules
+pantry-client/*.pnp
+pantry-client/*.pnp.js
+
+# testing
+pantry-client/coverage
+
+# production
+pantry-client/build
+
+# misc
+pantry-client/*.DS_Store
+pantry-client/*.env.local
+pantry-client/*.env.development.local
+pantry-client/*.env.test.local
+pantry-client/*.env.production.local
+
+pantry-client/npm-debug.log*
+pantry-client/yarn-debug.log*
+pantry-client/yarn-error.log*
+
+server/db.sqlite3
