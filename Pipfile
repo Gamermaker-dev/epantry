@@ -10,6 +10,8 @@ openpyxl = "*"
 psycopg2-binary = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
+djangorestframework-simplejwt = "*"
+uwsgi = "*"
 
 [dev-packages]
 

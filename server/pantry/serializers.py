@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User, Group
 from .models import Category, Clothes, Color, Condition, File, Gender, Size
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -30,7 +31,17 @@ class GenderSerializer(serializers.ModelSerializer):
         model = Gender
         fields = ('id', 'name', 'is_active')
 
+class GroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = ('id', 'name')
+
 class SizeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Size
         fields = ('id', 'name', 'category', 'is_active')
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username')

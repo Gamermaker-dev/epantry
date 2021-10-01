@@ -23,3 +23,4 @@ pantry-client/yarn-debug.log*
 pantry-client/yarn-error.log*
 
 server/db.sqlite3
+*.pyc
