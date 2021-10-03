@@ -8,7 +8,7 @@ import SecurityService from "./services/Security";
 import CookieService from './services/Cookie';
 
 function init() {
-    window.sessionStorage.clear();
+    // window.sessionStorage.clear();
     const securityService = new SecurityService();
     const cookieService = new CookieService();
 

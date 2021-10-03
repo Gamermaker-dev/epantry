@@ -30,5 +30,5 @@ router.register(r'sizes', views.SizeView, 'size')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('auth/', include('rest_framework.urls')),
+    path('auth/login/', views.login),
 ]
