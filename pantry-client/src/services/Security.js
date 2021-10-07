@@ -1,25 +1,46 @@
 import axios from "axios";
 
 export default class SecurityService {
-    constructor() {
-        this.userAuthenticted = false;
+    constructor(cookieService) {
+        this.login = this.login.bind(this);
+        this.logout = this.logout.bind(this);
+        this.isUserAuthenticated = this.isUserAuthenticated.bind(this);
+        this.cookieService = cookieService;
+
+        if (window.localStorage.getItem("user") && this.cookieService.getCookie("logged_in")) {
+            this.userAuthenticated = true;
+        } else {
+            this.userAuthenticated = false;
+        }
     }
 
     login(username, password) {
-        axios.post("http://localhost:8000/auth/login/", {username: username, password: password})
+        return axios.post("/login/", {username: username, password: password}, {withCredentials: true})
             .then((res) => {
-                window.sessionStorage.setItem("token", res.data.token);
+                window.localStorage.setItem('user', res.data.user.id);
                 this.userAuthenticated = true;
-                window.location = 'http://localhost:8000/';
+                return Promise.resolve(this.userAuthenticated);
             })
             .catch((err) => { 
                 console.log(err);
+                return Promise.resolve(this.userAuthenticated);
             });
     }
 
     logout() {
-        window.sessionStorage.removeItem("token");
-        window.sessionStorage.removeItem("refresh");
-        this.userAuthenticted = false;
+        return axios.post("/logout/", {}, {withCredentials: true})
+            .then((res) => {
+                window.localStorage.removeItem("user");
+                this.userAuthenticated = false;
+                return Promise.resolve(this.userAuthenticated);
+            })
+            .catch((err) => {
+                console.log(err);
+                return Promise.resolve(this.userAuthenticated);
+            });
+    }
+
+    isUserAuthenticated() {
+        return this.userAuthenticated;
     }
 }

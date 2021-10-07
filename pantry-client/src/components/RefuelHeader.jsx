@@ -8,7 +8,11 @@ export default class RefuelHeader extends Component {
 
     render() {
         return (
-            <RefuelNavbar userAuthenticated={this.props.userAuthenticated}></RefuelNavbar>
+            <RefuelNavbar 
+                userAuthenticated={this.props.userAuthenticated}
+                securityService={this.props.securityService}
+                logout={this.props.logout}
+            ></RefuelNavbar>
         );
     }
 }

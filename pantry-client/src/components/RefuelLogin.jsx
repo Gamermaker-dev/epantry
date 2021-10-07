@@ -14,7 +14,6 @@ export default class Home extends Component {
            username: '',
            password: ''
        };
-       this.securityService = this.props.securityService;
     }
 
     render() {
@@ -60,7 +59,7 @@ export default class Home extends Component {
                                             onChange={null}
                                             onClick={ (e) => {
                                                 e.preventDefault();
-                                                this.securityService.login(this.state.username, this.state.password)
+                                                this.props.userLogin(this.state.username, this.state.password)
                                             }}
                                         >
                                             Login

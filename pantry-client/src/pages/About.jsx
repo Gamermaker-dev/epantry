@@ -15,7 +15,6 @@ export default class About extends Component {
     render() {
         return (
             <div>
-                <RefuelHeader></RefuelHeader>
                 <RefuelBanner
                     title="About ePantry"
                 >

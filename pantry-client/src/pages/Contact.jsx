@@ -15,7 +15,6 @@ export default class Contact extends Component {
     render() {
         return (
             <div>
-                <RefuelHeader></RefuelHeader>
                 <RefuelBanner
                     title="Contact Us"
                 >

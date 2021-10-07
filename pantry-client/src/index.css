@@ -4994,26 +4994,26 @@ label.panel-block {
   white-space: nowrap; }
   .tabs a {
     align-items: center;
-    border-bottom-color: #dbdbdb;
+    border-bottom-color: #393c45;
     border-bottom-style: solid;
     border-bottom-width: 1px;
-    color: #4a4a4a;
+    color: #393c45;
     display: flex;
     justify-content: center;
     margin-bottom: -1px;
     padding: 0.5em 1em;
     vertical-align: top; }
     .tabs a:hover {
-      border-bottom-color: #363636;
-      color: #363636; }
+      border-bottom-color: #FFF;
+      color: #FFF; }
   .tabs li {
     display: block; }
     .tabs li.is-active a {
-      border-bottom-color: #485fc7;
-      color: #485fc7; }
+      border-bottom-color: #393c45;
+      color: #cd7535; }
   .tabs ul {
     align-items: center;
-    border-bottom-color: #dbdbdb;
+    border-bottom-color: #393c45;
     border-bottom-style: solid;
     border-bottom-width: 1px;
     display: flex;

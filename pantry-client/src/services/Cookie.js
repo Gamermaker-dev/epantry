@@ -1,4 +1,8 @@
 export default class CookieService {
+    constructor() {
+        this.getCookie = this.getCookie.bind(this);
+    }
+
     // Based on code from here: https://stackoverflow.com/a/50735730
     getCookie(name) {
         var cookieValue = null;

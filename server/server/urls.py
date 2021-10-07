@@ -15,20 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
-from pantry import views
-
-router = routers.DefaultRouter()
-router.register(r'categories', views.CategoryView, 'category')
-router.register(r'clothes', views.ClothesView, 'clothes')
-router.register(r'colors', views.ColorView, 'color')
-router.register(r'conditions', views.ConditionView, 'condition')
-router.register(r'files', views.FileView, 'file')
-router.register(r'genders', views.GenderView, 'gender')
-router.register(r'sizes', views.SizeView, 'size')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-    path('auth/login/', views.login),
+    path('api/', include('pantry.urls')),
 ]

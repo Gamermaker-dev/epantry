@@ -5,10 +5,8 @@ import {
     Columns,
     Level
 } from "react-bulma-components";
-import RefuelHeader from "../components/RefuelHeader";
 import RefuelBanner from "../components/RefuelBanner";
 import RefuelLogin from "../components/RefuelLogin";
-import RefuelFooter from "../components/RefuelFooter";
 
 export default class Home extends Component {
     constructor(props) {
@@ -22,7 +20,6 @@ export default class Home extends Component {
 
     render() {
         let body = [
-            <RefuelHeader userAuthenticated={this.props.securityService.userAuthenticated}></RefuelHeader>,
             <RefuelBanner
                 title="ReFuel ePantry"
                 subtitle="Loving People Safely"
@@ -67,23 +64,23 @@ export default class Home extends Component {
         ];
 
         body.push(section);
-        if (this.props.securityService.userAuthenticated === undefined) {
-            body.push(<RefuelLogin {...this.props}></RefuelLogin>);
+        if (!this.props.userAuthenticated) {
+            body.push(<RefuelLogin {...this.props}
+                userLogin={this.props.login}
+            ></RefuelLogin>);
         } else {
             body.push(
                 <Section>
                     <Container>
                         <Columns>
                             <Columns.Column>
-                                <span>Welcome back!</span>
+                                <span>Welcome back, {this.props.user ? this.props.user.first_name : ''} {this.props.user ? this.props.user.last_name : ''}!</span>
                             </Columns.Column>
                         </Columns>
                     </Container>
                 </Section>
             );
         }
-
-        body.push(<RefuelFooter></RefuelFooter>);
 
         return (<div>{body}</div>);
     }

@@ -8,6 +8,8 @@ export default class RefuelNavbar extends Component {
         super(props);
     }
 
+    
+
     render() {
         if (this.props.userAuthenticated) {
             return (
@@ -29,6 +31,9 @@ export default class RefuelNavbar extends Component {
                             <Navbar.Item href="#">
                                 Pantry
                             </Navbar.Item>
+                            <Navbar.Item href="/pantry-admin">
+                                Admin
+                            </Navbar.Item>
                             <Navbar.Item href="/about">
                                 About
                             </Navbar.Item>
@@ -37,7 +42,11 @@ export default class RefuelNavbar extends Component {
                             </Navbar.Item>
                         </Navbar.Container>
                         <Navbar.Container align="right">
-                            <Navbar.Item href="#">
+                            <Navbar.Item href="/profile">
+                                Profile
+                            </Navbar.Item>
+                            <Navbar.Item href="#"
+                                        onClick={this.props.logout}>
                                 Logout
                             </Navbar.Item>
                         </Navbar.Container>

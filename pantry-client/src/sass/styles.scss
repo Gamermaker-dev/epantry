@@ -6,6 +6,14 @@ $refuel: #cd7535;
 $refuel-grey: #393c45;
 $custom-colors: ("refuel": (#cd7535, #FFF), "refuel-grey": (#393c45, #FFF));
 
+// set Bulma variables here
+$tabs-border-bottom-color: $refuel-grey;
+$tabs-link-color: $refuel-grey;
+$tabs-link-active-border-bottom-color: $refuel-grey;
+$tabs-link-active-color: $refuel;
+$tabs-link-hover-border-bottom-color: #FFF;
+$tabs-link-hover-color: #FFF;
+
 // Import Bulma
 @import "../../node_modules/bulma/bulma.sass";
 
