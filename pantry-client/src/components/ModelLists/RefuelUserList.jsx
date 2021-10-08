@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -6,24 +6,12 @@ import {
     Progress,
     Icon,
 } from "react-bulma-components";
-import { icon } from "@fortawesome/fontawesome-svg-core";
+import RefuelModelList from "../RefuelModelList";
 
-export default class RefuelModelList extends Component {
+export default class RefuelUserList extends RefuelModelList {
     constructor(props) {
         super(props);
-        this.deleteModel = this.deleteModel.bind(this);
         this.renderTable = this.renderTable.bind(this);
-        this.state = {
-            getService: this.props.modelService,
-        }
-    }
-
-    deleteModel(id) {
-        this.state.service.delete(id)
-            .then((res) => {
-                this.props.loadModels();
-                return res;
-            });
     }
 
     renderTable() {
@@ -31,9 +19,11 @@ export default class RefuelModelList extends Component {
 
         for (let i = 0; i < this.props.models.length; i++) {
             tbody.push(<tr>
-                <td><a href={`/pantry-admin/color/${this.props.models[i].id}`}>{this.props.models[i].name}</a></td>
+                <td><a href={`/pantry-admin/user/${this.props.models[i].id}`}>{this.props.models[i].username}</a></td>
+                <td>{this.props.models[i].first_name}</td>
+                <td>{this.props.models[i].last_name}</td>
                 <td>{this.props.models[i].is_active ? 'Yes' : 'No'}</td>
-                <td><a href={`/pantry-admin/color/${this.props.models[i].id}`}><Icon color="refuel" size="medium"><FontAwesomeIcon icon={faEdit} /></Icon></a></td>
+                <td><a href={`/pantry-admin/user/${this.props.models[i].id}`}><Icon color="refuel" size="medium"><FontAwesomeIcon icon={faEdit} /></Icon></a></td>
                 <td><a onClick={() => this.deleteModel(this.props.models[i].id)}><Icon color="refuel" size="medium"><FontAwesomeIcon icon={faTrash} /></Icon></a></td>
             </tr>);
         }
@@ -41,7 +31,9 @@ export default class RefuelModelList extends Component {
         return (
             <Table size="fullwidth" bordered={true}>
                 <thead>
-                    <th>Name</th>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Is Active?</th>
                     <th>Edit</th>
                     <th>Delete</th>

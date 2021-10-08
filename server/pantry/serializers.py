@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, Permission
 from .models import Category, Clothes, Color, Condition, File, Gender, Size
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -31,10 +31,17 @@ class GenderSerializer(serializers.ModelSerializer):
         model = Gender
         fields = ('id', 'name', 'is_active')
 
+class PermissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Permission
+        fields = ('id', 'content_type', 'codename', 'name')
+
 class GroupSerializer(serializers.ModelSerializer):
+    permissions_details = PermissionSerializer(many=True, read_only=True, source='permissions')
+
     class Meta:
         model = Group
-        fields = ('id', 'name')
+        fields = ('id', 'name', 'permissions', 'permissions_details')
 
 class SizeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -42,6 +49,8 @@ class SizeSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'category', 'is_active')
 
 class UserSerializer(serializers.ModelSerializer):
+    groups_details = GroupSerializer(many=True, read_only=True, source='groups')
+
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'email')
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'last_login', 'groups', 'groups_details', 'is_superuser', 'is_staff', 'is_active', 'date_joined')

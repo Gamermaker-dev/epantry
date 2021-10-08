@@ -15,7 +15,7 @@ export default class SecurityService {
     }
 
     login(username, password) {
-        return axios.post("/login/", {username: username, password: password}, {withCredentials: true})
+        return axios.post("/login/", {username: username, password: password})
             .then((res) => {
                 window.localStorage.setItem('user', res.data.user.id);
                 this.userAuthenticated = true;
@@ -28,7 +28,7 @@ export default class SecurityService {
     }
 
     logout() {
-        return axios.post("/logout/", {}, {withCredentials: true})
+        return axios.post("/logout/", {})
             .then((res) => {
                 window.localStorage.removeItem("user");
                 this.userAuthenticated = false;

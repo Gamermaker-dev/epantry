@@ -8,6 +8,7 @@ import {
     Progress,
 } from "react-bulma-components";
 import RefuelBanner from "../components/RefuelBanner";
+import RefuelBreadcrumbs from "../components/RefuelBreadcrumbs";
 
 export default class Home extends Component {
     constructor(props) {
@@ -16,16 +17,18 @@ export default class Home extends Component {
        this.state = {
            user: {}
        };
+
+       this.props.path[1].active = true;
        
        const id = window.localStorage.getItem("user");
-       this.props.userService.fetchUserInfo(id)
+       this.props.userService.get(id)
         .then((user) => {
             this.setState({ user: user });
         });
     }
 
-    updateUser(userId, userName, firstName, lastName, email) {
-        this.props.userService.update(userId, userName, firstName, lastName, email)
+    updateUser(updatedUser) {
+        this.props.userService.update(updatedUser)
             .then((user) => {
                 this.setState(prevState => {
                     const newUser = prevState.user;
@@ -44,6 +47,7 @@ export default class Home extends Component {
             <RefuelBanner
                 title="Edit Profile"
             ></RefuelBanner>,
+            <RefuelBreadcrumbs path={this.props.path} />,
         ];
 
         let section = [];
@@ -132,7 +136,7 @@ export default class Home extends Component {
                                                 color="refuel"
                                                 onClick={ (e) => {
                                                     e.preventDefault();
-                                                    this.updateUser(this.state.user.id, this.state.user.username, this.state.user.first_name, this.state.user.last_name, this.state.user.email)
+                                                    this.updateUser(this.state.user);
                                                 }}
                                             >
                                                 Update

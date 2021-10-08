@@ -1,17 +1,18 @@
 import axios from "axios";
 
-export default class ColorService {
+export default class ModelService {
 
-    constructor() {
+    constructor(apiHandler) {
         this.get = this.get.bind(this);
         this.create = this.create.bind(this);
         this.update = this.update.bind(this);
         this.delete = this.delete.bind(this);
+        this.apiHandler = apiHandler;
     }
 
     get(id) {
-        const url = id ? `/colors/${id}/` : '/colors/';
-        return axios.get(url, {withCredentials: true})
+        const url = id ? `/${this.apiHandler}/${id}/` : `/${this.apiHandler}/`;
+        return axios.get(url)
             .then((res) => {
                 return res.data;
             })
@@ -21,8 +22,8 @@ export default class ColorService {
             });
     }
 
-    create(newColor) {
-        return axios.put('/colors/', newColor, {withCredentials: true})
+    create(newModel) {
+        return axios.post(`/${this.apiHandler}/`, newModel)
             .then((res) => {
                 return res.data;
             })
@@ -32,8 +33,8 @@ export default class ColorService {
             });
     }
 
-    update(color) {
-        return axios.put(`/colors/${color.id}/`, color, {withCredentials: true})
+    update(model) {
+        return axios.put(`/${this.apiHandler}/${model.id}/`, model)
             .then((res) => {
                 return res.data;
             })
@@ -44,7 +45,7 @@ export default class ColorService {
     }
     
     delete(id) {
-        return axios.delete(`/colors/${id}/`, {withCredentials: true})
+        return axios.delete(`/${this.apiHandler}/${id}/`)
             .then((res) => {
                 return 'Delete was successful';
             })

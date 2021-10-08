@@ -6,6 +6,7 @@ import {
     Level
 } from "react-bulma-components";
 import RefuelBanner from "../components/RefuelBanner";
+import RefuelBreadcrumbs from "../components/RefuelBreadcrumbs";
 import RefuelLogin from "../components/RefuelLogin";
 
 export default class Home extends Component {
@@ -16,6 +17,8 @@ export default class Home extends Component {
            clothes: 0,
            orders: 0,
        };
+
+       this.props.path[0].active = true;
     }
 
     render() {
@@ -24,6 +27,7 @@ export default class Home extends Component {
                 title="ReFuel ePantry"
                 subtitle="Loving People Safely"
             ></RefuelBanner>,
+            <RefuelBreadcrumbs path={this.props.path} />
         ];
 
         let section = [

@@ -11,8 +11,10 @@ $tabs-border-bottom-color: $refuel-grey;
 $tabs-link-color: $refuel-grey;
 $tabs-link-active-border-bottom-color: $refuel-grey;
 $tabs-link-active-color: $refuel;
-$tabs-link-hover-border-bottom-color: #FFF;
-$tabs-link-hover-color: #FFF;
+$tabs-link-hover-border-bottom-color: $refuel-grey;
+$tabs-link-hover-color: $refuel;
+
+$link: $refuel;
 
 // Import Bulma
 @import "../../node_modules/bulma/bulma.sass";

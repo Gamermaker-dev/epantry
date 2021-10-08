@@ -6,10 +6,13 @@ import {
 } from "react-bulma-components";
 import RefuelHeader from "../components/RefuelHeader";
 import RefuelBanner from "../components/RefuelBanner";
+import RefuelBreadcrumbs from "../components/RefuelBreadcrumbs";
 
 export default class Contact extends Component {
     constructor(props) {
        super(props);
+
+       this.props.path[1].active = true;
     }
 
     render() {
@@ -19,6 +22,7 @@ export default class Contact extends Component {
                     title="Contact Us"
                 >
                 </RefuelBanner>
+                <RefuelBreadcrumbs path={this.props.path} />
                 <Section>
                     <Container>
                         <Columns>

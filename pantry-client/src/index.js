@@ -7,15 +7,17 @@ import App from './App';
 // import services
 import SecurityService from "./services/Security";
 import CookieService from './services/Cookie';
-import UserService from './services/User';
-import ColorService from './services/Color';
+import ModelService from './services/Model';
 
 function init() {
     // window.sessionStorage.clear();
     const cookieService = new CookieService();
     const securityService = new SecurityService(cookieService);
-    const userService = new UserService();
-    const colorService = new ColorService();
+    const categoryService = new ModelService('categories');
+    const colorService = new ModelService('colors');
+    const groupService = new ModelService('groups');
+    const permissionService = new ModelService('permissions');
+    const userService = new ModelService('users');
 
     axios.defaults.baseURL = 'http://localhost:8000/api';
 
@@ -24,8 +26,11 @@ function init() {
             <App
                 securityService={securityService}
                 cookieService={cookieService}
-                userService={userService}
+                categoryService={categoryService}
                 colorService={colorService}
+                groupService={groupService}
+                permissionService={permissionService}
+                userService={userService}
             />
         </React.StrictMode>,
         document.getElementById('root')
