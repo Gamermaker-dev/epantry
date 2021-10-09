@@ -1,0 +1,28 @@
+# epantry.conf
+
+server {
+    listen $NGINX_PORT;
+    server_name $NGINX_SERVER;
+    charset utf-8;
+
+    client_max_body_size 75M;
+
+    location ~ ^/(api|admin|auth) {
+        uwsgi_pass unix://$EPANTRY_PATH/epantry.sock;
+        include /etc/nginx/uwsgi_params;
+    }
+
+    location /media {
+        alias $EPANTRY_PATH/pantry-client/build/img;
+    }
+
+    location /static {
+        alias $EPANTRY_PATH/pantry-client/build/static;
+    }
+
+    location / {
+        root $EPANTRY_PATH/pantry-client/build;
+        index index.html;
+        try_files $uri $uri/ /index.html;
+    }
+}

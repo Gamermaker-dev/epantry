@@ -24,3 +24,5 @@ pantry-client/yarn-error.log*
 
 server/db.sqlite3
 *.pyc
+*.env
+epantry.conf
