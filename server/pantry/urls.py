@@ -19,12 +19,17 @@ urlpatterns = [
     path('groups/<int:pk>/', views.GroupDetail.as_view()),
     path('permissions/', views.PermissionList.as_view()),
     path('permissions/<int:pk>/', views.PermissionDetail.as_view()),
+    path('schools/', views.SchoolList.as_view()),
+    path('schools/<int:pk>/', views.SchoolDetail.as_view()),
     path('sizes/', views.SizeList.as_view()),
     path('sizes/<int:pk>/', views.SizeDetail.as_view()),
     path('users/', views.UserList.as_view()),
     path('users/<int:pk>/', views.UserDetail.as_view()),
+    path('verses/', views.VerseList.as_view()),
+    path('verses/<int:pk>/', views.VerseDetail.as_view()),
     path('login/', views.login),
     path('logout/', views.logout),
+    path('verseoftheday/', views.verseoftheday),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

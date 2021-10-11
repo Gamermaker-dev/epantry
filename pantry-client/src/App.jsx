@@ -20,6 +20,7 @@ import Admin from "./pages/Admin";
 import ModelPage from "./pages/ModelPage";
 import UserModelPage from "./pages/ModelPages/UserModelPage";
 import GroupModelPage from "./pages/ModelPages/GroupModelPage";
+import VerseModelPage from "./pages/ModelPages/VerseModelPage";
   
 
 class App extends Component {
@@ -78,8 +79,14 @@ class App extends Component {
         const adminPath = homePath.slice().concat([{url: '/pantry-admin', name: 'Admin', active: false}]);
         const categoryPath = adminPath.slice().concat([{url: '/category/', name: 'Category', active: false}]);
         const colorPath = adminPath.slice().concat([{url: '/color/', name: 'Color', active: false}]);
+        const conditionPath = adminPath.slice().concat([{url: '/condition/', name: 'Condition', active: false}]);
+        const genderPath = adminPath.slice().concat([{url: '/gender/', name: 'Gender', active: false}]);
         const groupPath = adminPath.slice().concat([{url: '/group/', name: 'Group', active: false}]);
+        const permissionPath = adminPath.slice().concat([{url: '/permission/', name: 'Permission', active: false}]);
+        const schoolPath = adminPath.slice().concat([{url: '/school/', name: 'School', active: false}]);
+        const sizePath = adminPath.slice().concat([{url: '/size/', name: 'Size', active: false}]);
         const userPath = adminPath.slice().concat([{url: '/user/', name: 'User', active: false}]);
+        const versePath = adminPath.slice().concat([{url: '/verse/', name: 'Verse', active: false}]);
 
         return (
             <div>
@@ -112,8 +119,14 @@ class App extends Component {
                         </Route>
                         <Route exact path="/pantry-admin/category/:id" children={<ModelWithParams path={categoryPath} modelName='category' modelService={this.props.categoryService} {...this.props} />} />
                         <Route exact path="/pantry-admin/color/:id" children={<ModelWithParams path={colorPath} modelName='color' modelService={this.props.colorService} {...this.props} />} />
+                        <Route exact path="/pantry-admin/condition/:id" children={<ModelWithParams path={conditionPath} modelName='condition' modelService={this.props.conditionService} {...this.props} />} />
+                        <Route exact path="/pantry-admin/gender/:id" children={<ModelWithParams path={genderPath} modelName='gender' modelService={this.props.genderService} {...this.props} />} />
                         <Route exact path="/pantry-admin/group/:id" children={<ModelWithParams path={groupPath} modelName='group' modelService={this.props.groupService} {...this.props} />} />
+                        <Route exact path="/pantry-admin/permission/:id" children={<ModelWithParams path={permissionPath} modelName='permission' modelService={this.props.permissionService} {...this.props} />} />
+                        <Route exact path="/pantry-admin/school/:id" children={<ModelWithParams path={schoolPath} modelName='school' modelService={this.props.schoolService} {...this.props} />} />
+                        <Route exact path="/pantry-admin/size/:id" children={<ModelWithParams path={sizePath} modelName='size' modelService={this.props.sizeService} {...this.props} />} />
                         <Route exact path="/pantry-admin/user/:id" children={<ModelWithParams path={userPath} modelName='user' modelService={this.props.userService} {...this.props} />} />
+                        <Route exact path="/pantry-admin/verse/:id" children={<ModelWithParams path={versePath} modelName='verse' modelService={this.props.verseService} {...this.props} />} />
                         <Redirect to="/" />
                     </Switch>
                 </Router>
@@ -137,6 +150,10 @@ function ModelWithParams(props) {
     } else if (props.modelName === 'group') {
         el = (
             <GroupModelPage id={id} {...props} />
+        );
+    } else if (props.modelName === 'verse') {
+        el = (
+            <VerseModelPage id={id} {...props} />
         );
     }
 

@@ -1,6 +1,7 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from django.contrib.auth.models import User, Group, Permission
-from .models import Category, Clothes, Color, Condition, File, Gender, Size
+from .models import Category, Clothes, Color, Condition, File, Gender, School, Size, Verse
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,6 +17,18 @@ class ColorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Color
         fields = ('id', 'name', 'is_active')
+    
+    def validate(self, attrs):
+        name = attrs.get('name')
+
+        if name:
+            if len(name) > 20:
+                msg = {'name': "Name must be 20 characters or less."}
+                raise ValidationError(msg)
+        else:
+            msg = {'name': "Name is required."}
+            raise ValidationError(msg)
+
 
 class ConditionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -43,6 +56,11 @@ class GroupSerializer(serializers.ModelSerializer):
         model = Group
         fields = ('id', 'name', 'permissions', 'permissions_details')
 
+class SchoolSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = School
+        fields = ('id', 'name', 'is_active')
+
 class SizeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Size
@@ -54,3 +72,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'first_name', 'last_name', 'email', 'last_login', 'groups', 'groups_details', 'is_superuser', 'is_staff', 'is_active', 'date_joined')
+
+class VerseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Verse
+        fields = ('id', 'verse', 'passage')

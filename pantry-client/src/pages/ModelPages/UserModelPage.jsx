@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Section, Container, Columns, Form, Button, } from "react-bulma-components";
 import RefuelBanner from "../../components/RefuelBanner";
 import RefuelBreadcrumbs from "../../components/RefuelBreadcrumbs";
+import RefuelToggleSwitch from "../../components/RefuelBulmaComponents/RefuelToggleSwitch";
 
 export default class UserModelPage extends Component {
     constructor(props) {
@@ -162,8 +163,10 @@ export default class UserModelPage extends Component {
                                     </Form.Field>
                                     <Form.Field>
                                         <Form.Control>
-                                            <Form.Checkbox 
+                                            <RefuelToggleSwitch
                                                 checked={this.state.model.is_active}
+                                                id="isActive"
+                                                color="refuel"
                                                 onChange={() => {
                                                     return this.setState(prevState => {
                                                         const newmodel = prevState.model;
@@ -171,13 +174,16 @@ export default class UserModelPage extends Component {
                                                         return newmodel;
                                                     });
                                                 }}
-                                            >Is Active?</Form.Checkbox>
+                                            />
+                                            <Form.Label for="isActive">Is Active?</Form.Label>
                                         </Form.Control>
                                     </Form.Field>
                                     <Form.Field>
                                         <Form.Control>
-                                            <Form.Checkbox 
+                                            <RefuelToggleSwitch 
                                                 checked={this.state.model.is_superuser}
+                                                id="isSuperuser"
+                                                color="refuel"
                                                 onChange={() => {
                                                     return this.setState(prevState => {
                                                         const newmodel = prevState.model;
@@ -185,13 +191,16 @@ export default class UserModelPage extends Component {
                                                         return newmodel;
                                                     });
                                                 }}
-                                            >Is Superuser?</Form.Checkbox>
+                                            />
+                                            <Form.Label>Is Superuser?</Form.Label>
                                         </Form.Control>
                                     </Form.Field>
                                     <Form.Field>
                                         <Form.Control>
-                                            <Form.Checkbox 
+                                            <RefuelToggleSwitch 
                                                 checked={this.state.model.is_staff}
+                                                id="isStaff"
+                                                color="refuel"
                                                 onChange={() => {
                                                     return this.setState(prevState => {
                                                         const newmodel = prevState.model;
@@ -199,7 +208,8 @@ export default class UserModelPage extends Component {
                                                         return newmodel;
                                                     });
                                                 }}
-                                            >Is Staff?</Form.Checkbox>
+                                            />
+                                            <Form.Label>Is Staff?</Form.Label>
                                         </Form.Control>
                                     </Form.Field>
                                     <Form.Field>

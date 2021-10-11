@@ -24,6 +24,7 @@ class Clothes(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     file = models.ForeignKey('File', on_delete=models.SET_NULL, null=True, blank=True)
     brand = models.CharField(max_length=50, help_text="Brand of clothing, if available", null=True, blank=True)
+    school = models.ForeignKey('School', on_delete=models.SET_NULL, null=True, blank=True,)
     description = models.TextField(max_length=500, help_text="Brief description of clothing", null=True, blank=True)
     inventory_date = models.DateField(help_text="Date the item of clothing was added to the pantry", default=date.today)
     date_checked_out = models.DateField(help_text="Date the item of clothing was checked out", null=True, blank=True)
@@ -65,6 +66,11 @@ class Gender(models.Model):
         """String for representing the Model object."""
         return self.name
 
+class School(models.Model):
+    """Model representing a school to deliver clothes to."""
+    name = models.CharField(max_length=100, help_text="Enter the name of the school",)
+    is_active = models.BooleanField(help_text="Is this school still in use? (Affects if it appears in when checking out)",)
+
 class Size(models.Model):
     name = models.CharField(max_length=30, help_text="Enter the name of the size",)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, help_text="Category that size relates to",)
@@ -73,3 +79,8 @@ class Size(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.category} - {self.name}'
+
+class Verse(models.Model):
+    """Model representing a select set of scripture verses """
+    verse = models.CharField(max_length=15)
+    passage = models.TextField(max_length=700)

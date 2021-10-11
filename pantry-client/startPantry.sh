@@ -16,6 +16,6 @@ else
     service nginx start
 fi
 
-#uwsgi --ini $EPANTRY_PATH/epantry.ini &
+uwsgi --ini $EPANTRY_PATH/epantry.ini &
 
-#npm run watch
+# npm run watch &

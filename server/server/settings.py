@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-4t0#o$yo--#ift21y*k=1h)sr*=72wk3q)lkd#2%fv8mqny&cg'
+SECRET_KEY = env("SECRET_KEY")
+
+BIBLE_API_KEY = env("BIBLE_API")
+BIBLE_ID = env("BIBLE_ID")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -141,7 +148,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ]
+    ],
+    'EXCEPTION_HANDLER': 'pantry.utils.refuel_exception_handler',
 }
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'

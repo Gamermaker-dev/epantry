@@ -7,6 +7,7 @@ import RefuelBreadcrumbs from "../components/RefuelBreadcrumbs";
 import RefuelModelList from "../components/RefuelModelList";
 import RefuelUserList from "../components/ModelLists/RefuelUserList";
 import RefuelGroupList from "../components/ModelLists/RefuelGroupList";
+import RefuelVerseList from "../components/ModelLists/RefuelVerseList";
 
 class AdminWithoutRouter extends Component {
     constructor(props) {
@@ -30,11 +31,26 @@ class AdminWithoutRouter extends Component {
             case 'color':
                 this.modelService = this.props.colorService;
                 break;
+            case 'condition':
+                this.modelService = this.props.conditionService;
+                break;
+            case 'gender':
+                this.modelService = this.props.genderService;
+                break;
             case 'group':
                 this.modelService = this.props.groupService;
                 break;
+            case 'school':
+                this.modelService = this.props.schoolService;
+                break;
+            case 'size':
+                this.modelService = this.props.sizeService;
+                break;
             case 'user':
                 this.modelService = this.props.userService;
+                break;
+            case 'verse':
+                this.modelService = this.props.verseService;
                 break;
             default:
                 break;
@@ -83,6 +99,20 @@ class AdminWithoutRouter extends Component {
                 Color
             </Tabs.Tab>
             <Tabs.Tab 
+                href="#condition"
+                active={this.state.activeTab === 'condition'}
+                onClick={() => this.changeTab('condition', this.props.conditionService)}
+            >
+                Condition
+            </Tabs.Tab>
+            <Tabs.Tab 
+                href="#gender"
+                active={this.state.activeTab === 'gender'}
+                onClick={() => this.changeTab('gender', this.props.genderService)}
+            >
+                Gender
+            </Tabs.Tab>
+            <Tabs.Tab 
                 href="#group"
                 active={this.state.activeTab === 'group'}
                 onClick={() => this.changeTab('group', this.props.groupService)}
@@ -90,11 +120,32 @@ class AdminWithoutRouter extends Component {
                 Group
             </Tabs.Tab>
             <Tabs.Tab 
+                href="#school"
+                active={this.state.activeTab === 'school'}
+                onClick={() => this.changeTab('school', this.props.schoolService)}
+            >
+                School
+            </Tabs.Tab>
+            <Tabs.Tab 
+                href="#size"
+                active={this.state.activeTab === 'size'}
+                onClick={() => this.changeTab('size', this.props.sizeService)}
+            >
+                Size
+            </Tabs.Tab>
+            <Tabs.Tab 
                 href="#user"
                 active={this.state.activeTab === 'user'}
                 onClick={() => this.changeTab('user', this.props.userService)}
             >
                 User
+            </Tabs.Tab>
+            <Tabs.Tab 
+                href="#verse"
+                active={this.state.activeTab === 'verse'}
+                onClick={() => this.changeTab('verse', this.props.verseService)}
+            >
+                Verse
             </Tabs.Tab>
         </Tabs>);
 
@@ -118,6 +169,8 @@ class AdminWithoutRouter extends Component {
             modelList = <RefuelUserList modelService={this.state.modelService} models={this.state.models} loadModels={this.loadModels} />;
         } else if (this.state.activeTab === 'group') {
             modelList = <RefuelGroupList modelService={this.state.modelService} models={this.state.models} loadModels={this.loadModels} />;
+        } else if (this.state.activeTab === 'verse') {
+            modelList = <RefuelVerseList modelService={this.state.modelService} models={this.state.models} loadModels={this.loadModels} />;
         }
         return (
             <Section>
@@ -151,15 +204,40 @@ class AdminWithoutRouter extends Component {
                 bannerTitle = 'Manage Colors';
                 buttonName = 'Color';
                 break;
+            case 'condition':
+                createUrl += '/condition/new';
+                bannerTitle = 'Manage Conditions';
+                buttonName = 'Condition';
+                break;
+            case 'gender':
+                createUrl += '/gender/new';
+                bannerTitle = 'Manage Genders';
+                buttonName = 'Gender';
+                break;
             case 'group':
                 createUrl += '/group/new';
                 bannerTitle = 'Manage Groups';
                 buttonName = 'Group';
                 break;
+            case 'school':
+                createUrl += '/school/new';
+                bannerTitle = 'Manage Schools';
+                buttonName = 'School';
+                break;
+            case 'size':
+                createUrl += '/size/new';
+                bannerTitle = 'Manage Sizes';
+                buttonName = 'Size';
+                break;
             case 'user':
                 createUrl += '/user/new';
                 bannerTitle = 'Manage Users';
                 buttonName = 'User';
+                break;
+            case 'verse':
+                createUrl += '/verse/new';
+                bannerTitle = 'Manage Verses';
+                buttonName = 'Verse';
                 break;
             default:
                 break;

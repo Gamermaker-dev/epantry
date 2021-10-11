@@ -1,26 +1,21 @@
 import React, { Component } from "react";
 import { Section, Container, Columns, Form, Button, } from "react-bulma-components";
-import RefuelBanner from "../components/RefuelBanner";
-import RefuelBreadcrumbs from "../components/RefuelBreadcrumbs";
-import RefuelToggleSwitch from "../components/RefuelBulmaComponents/RefuelToggleSwitch";
-import RefuelError from "../components/RefuelError";
+import RefuelBanner from "../../components/RefuelBanner";
+import RefuelBreadcrumbs from "../../components/RefuelBreadcrumbs";
 
-export default class ModelPage extends Component {
+export default class VerseModelPage extends Component {
     constructor(props) {
         super(props);
         this.getModel = this.getModel.bind(this);
         this.createModel = this.createModel.bind(this);
         this.updateModel = this.updateModel.bind(this);
         this.state = {
-            model: {
-                is_active: true, // make true by default for new categories
-            },
-            errors: [],
+            model: { },
         };
 
         this.modelId = this.props.id;
-        
-        this.props.path[1].url += `#${this.props.modelName}`;
+
+        this.props.path[1].url += '#verse';
         this.props.path[2].url += this.modelId;
         this.props.path[2].active = true;
 
@@ -32,25 +27,21 @@ export default class ModelPage extends Component {
 
         this.props.modelService.get(id)
             .then((model) => {
-                this.setState({ model: model});
+                this.setState({ model: model });
             });
     }
 
-    createModel(name, active) {
-        this.props.modelService.create({name: name, is_active: active})
+    createModel(newGroup) {
+        this.props.modelService.create(newGroup)
             .then((model) => {
                 window.location.href = `http://localhost:8000/pantry-admin/${this.props.modelName}/${model.id}`;
-            }, (rej) => {
-                this.setState({ errors: rej.errors });
             });
     }
 
-    updateModel(id, name, active) {
-        this.props.modelService.update({id: id, name: name, is_active: active})
+    updateModel(updatedGroup) {
+        this.props.modelService.update(updatedGroup)
             .then((model) => {
                 this.setState({ model: model });
-            }, (rej) => {
-                this.setState({ errors: rej.errors });
             });
     }
 
@@ -61,43 +52,43 @@ export default class ModelPage extends Component {
             <div>
                 <RefuelBanner title={id === 'new' ? `Create ${this.props.modelName}` : `Update ${this.props.modelName}`} /> 
                 <RefuelBreadcrumbs path={this.props.path} />
-                <RefuelError errors={this.state.errors} removeErrors={() => { this.setState({ errors: [] })}} />
                 <Section>
                     <Container>
                         <Columns>
                             <Columns.Column>
                                 <form>
                                     <Form.Field>
-                                        <Form.Label>Name</Form.Label>
+                                        <Form.Label>Verse</Form.Label>
                                         <Form.Control>
                                             <Form.Input
                                                 color="refuel"
-                                                value={this.state.model.name}
+                                                value={this.state.model.verse}
                                                 type="text"
                                                 onChange={(e) => {
                                                     return this.setState(prevState => {
                                                         const newmodel = prevState.model;
-                                                        newmodel.name = e.target.value;
+                                                        newmodel.verse = e.target.value;
                                                         return newmodel;
                                                     });
                                                 }} />
                                         </Form.Control>
                                     </Form.Field>
                                     <Form.Field>
+                                        <Form.Label>Passage</Form.Label>
                                         <Form.Control>
-                                            <RefuelToggleSwitch 
-                                                id="isActive"
+                                            <Form.Textarea
                                                 color="refuel"
-                                                checked={this.state.model.is_active}
-                                                onChange={() => {
+                                                value={this.state.model.passage}
+                                                size="medium"
+                                                placeholder="Bible Scripture goes here..."
+                                                onChange={(e) => {
                                                     return this.setState(prevState => {
                                                         const newmodel = prevState.model;
-                                                        newmodel.is_active = !newmodel.is_active;
+                                                        newmodel.passage = e.target.value;
                                                         return newmodel;
                                                     });
                                                 }}
                                             />
-                                            <Form.Label for="isActive">Is Active?</Form.Label>
                                         </Form.Control>
                                     </Form.Field>
                                     <Form.Field>
@@ -107,9 +98,9 @@ export default class ModelPage extends Component {
                                                 onClick={(e) => {
                                                     e.preventDefault();
                                                     if (id === 'new') {
-                                                        this.createModel(this.state.model.name, this.state.model.is_active);
+                                                        this.createModel(this.state.model);
                                                     } else {
-                                                        this.updateModel(this.state.model.id, this.state.model.name, this.state.model.is_active);
+                                                        this.updateModel(this.state.model);
                                                     }
                                                 }}
                                             >{id === 'new' ? 'Create' : 'Update'} {this.props.modelName}</Button>
