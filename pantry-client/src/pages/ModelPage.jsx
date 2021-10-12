@@ -4,6 +4,7 @@ import RefuelBanner from "../components/RefuelBanner";
 import RefuelBreadcrumbs from "../components/RefuelBreadcrumbs";
 import RefuelToggleSwitch from "../components/RefuelBulmaComponents/RefuelToggleSwitch";
 import RefuelError from "../components/RefuelError";
+import { toast } from "bulma-toast";
 
 export default class ModelPage extends Component {
     constructor(props) {
@@ -15,7 +16,6 @@ export default class ModelPage extends Component {
             model: {
                 is_active: true, // make true by default for new categories
             },
-            errors: [],
         };
 
         this.modelId = this.props.id;
@@ -41,7 +41,13 @@ export default class ModelPage extends Component {
             .then((model) => {
                 window.location.href = `http://localhost:8000/pantry-admin/${this.props.modelName}/${model.id}`;
             }, (rej) => {
-                this.setState({ errors: rej.errors });
+                const errorMessage = `${rej.errors[0].field}: ${rej.errors[0].message[0]}`
+                toast({
+                    message: errorMessage,
+                    type: 'is-danger',
+                    dismissible: true,
+                    animate: { in: 'fadeIn', out: 'fadeOut' },
+                });
             });
     }
 
@@ -50,7 +56,13 @@ export default class ModelPage extends Component {
             .then((model) => {
                 this.setState({ model: model });
             }, (rej) => {
-                this.setState({ errors: rej.errors });
+                const errorMessage = `${rej.errors[0].field}: ${rej.errors[0].message[0]}`
+                toast({
+                    message: errorMessage,
+                    type: 'is-danger',
+                    dismissible: true,
+                    animate: { in: 'fadeIn', out: 'fadeOut' },
+                });
             });
     }
 
@@ -61,7 +73,6 @@ export default class ModelPage extends Component {
             <div>
                 <RefuelBanner title={id === 'new' ? `Create ${this.props.modelName}` : `Update ${this.props.modelName}`} /> 
                 <RefuelBreadcrumbs path={this.props.path} />
-                <RefuelError errors={this.state.errors} removeErrors={() => { this.setState({ errors: [] })}} />
                 <Section>
                     <Container>
                         <Columns>

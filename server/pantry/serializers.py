@@ -17,18 +17,6 @@ class ColorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Color
         fields = ('id', 'name', 'is_active')
-    
-    def validate(self, attrs):
-        name = attrs.get('name')
-
-        if name:
-            if len(name) > 20:
-                msg = {'name': "Name must be 20 characters or less."}
-                raise ValidationError(msg)
-        else:
-            msg = {'name': "Name is required."}
-            raise ValidationError(msg)
-
 
 class ConditionSerializer(serializers.ModelSerializer):
     class Meta:

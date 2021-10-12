@@ -54,8 +54,7 @@ export default class SecurityService {
                 return Promise.resolve(this.userAuthenticated);
             })
             .catch((err) => { 
-                console.log(err);
-                return Promise.resolve(this.userAuthenticated);
+                return Promise.reject(err.response.data);
             });
     }
 
@@ -67,8 +66,7 @@ export default class SecurityService {
                 return Promise.resolve(this.userAuthenticated);
             })
             .catch((err) => {
-                console.log(err);
-                return Promise.resolve(this.userAuthenticated);
+                return Promise.reject(err.response.data);
             });
     }
 

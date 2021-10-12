@@ -17,8 +17,7 @@ export default class ModelService {
                 return res.data;
             })
             .catch((err) => {
-                console.error(err);
-                return Promise.reject(err);
+                return Promise.reject(err.response.data);
             });
     }
 
@@ -38,8 +37,7 @@ export default class ModelService {
                 return res.data;
             })
             .catch((err) => {
-                console.error(err);
-                return Promise.reject(err);
+                return Promise.reject(err.response.data);
             });
     }
     
@@ -49,8 +47,7 @@ export default class ModelService {
                 return 'Delete was successful';
             })
             .catch((err) => {
-                console.error(err);
-                return Promise.reject(err);
+                return Promise.reject(err.response.data);
             })
     }
 }

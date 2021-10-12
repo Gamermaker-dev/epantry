@@ -6,7 +6,7 @@ import {
     Redirect,
     useParams,
   } from "react-router-dom";
-import axios from "axios";
+import { toast } from "bulma-toast";
 
 import RefuelHeader from "./components/RefuelHeader";
 import RefuelFooter from "./components/RefuelFooter";
@@ -32,6 +32,7 @@ class App extends Component {
         this.state = {
             isAuthenticated: this.props.securityService.isUserAuthenticated(),
             user: null,
+            loginErrors: [],
         }
         
         const logged_in = this.props.cookieService.getCookie("logged_in");
@@ -45,6 +46,14 @@ class App extends Component {
             .then((res) => {
                 this.setState({isAuthenticated: res});
                 this.getUser();
+            }, (rej) => {
+                const errorMessage = `${rej.errors[0].field}: ${rej.errors[0].message[0]}`
+                toast({
+                    message: errorMessage,
+                    type: 'is-danger',
+                    dismissible: true,
+                    animate: { in: 'fadeIn', out: 'fadeOut' },
+                });
             });
     }
 
@@ -53,6 +62,14 @@ class App extends Component {
             .then((res) => {
                 this.setState({isAuthenticated: res});
                 window.location.href = 'http://localhost:8000';
+            }, (rej) => {
+                const errorMessage = `${rej.errors[0].field}: ${rej.errors[0].message[0]}`
+                toast({
+                    message: errorMessage,
+                    type: 'is-danger',
+                    dismissible: true,
+                    animate: { in: 'fadeIn', out: 'fadeOut' },
+                });
             });
     }
 

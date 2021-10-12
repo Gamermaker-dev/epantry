@@ -32,24 +32,17 @@ def login(request):
     username = request.data.get("username")
     password = request.data.get("password")
     if username is None or password is None:
-        return Response({'error': 'Please provide both username and password'},
+        error = {'errors': [{'field': 'login', 'message': ['Please provide both username and password']}]}
+        return Response(data=error,
                         status=HTTP_400_BAD_REQUEST)
     user = authenticate(username=username, password=password)
     if not user:
-        return Response({'error': 'Invalid Credentials'},
+        error = {'errors': [{'field': 'authentication', 'message': ['Invalid Credentials']}]}
+        return Response(data=error,
                         status=HTTP_404_NOT_FOUND)
     user.last_login = datetime.now()
     user.save()
     token, _ = Token.objects.get_or_create(user=user)
-    """dict_groups = []
-    
-    for g_name in user.groups.all():
-        group = Group.objects.get(name=g_name)
-        for item in group:
-            item['name'] = model_to_dict(item['name'])
-        dict_groups += model_to_dict(group)
-    
-    user.groups_details = dict_groups"""
 
     response = JsonResponse(UserSerializer(instance=user).data)
     response.set_cookie('token', token.key, httponly=True, secure=True, samesite='strict')
@@ -61,11 +54,13 @@ def login(request):
 def logout(request):
     token = request.COOKIES.get("token")
     if token is None:
-        return Response({'error': 'No user is logged in'},
+        error = {'errors': [{'field': 'logout', 'message': ['No user is logged in.']}]}
+        return Response(data=error,
                         status=HTTP_400_BAD_REQUEST)
     token = Token.objects.get(key=token)
     if not token:
-        return Response({'error': 'Invalid Credentials'},
+        error = {'errors': [{'field': 'token', 'message': ['Invalid token.']}]}
+        return Response(data=error,
                         status=HTTP_404_NOT_FOUND)
 
     response = HttpResponse({'success': 'User has logged out!'})
@@ -94,20 +89,48 @@ class CategoryList(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     permission_classes = [DjangoModelPermissions]
 
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
+
 class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
     permission_classes = [DjangoModelPermissions]
+
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
 
 class ClothesList(generics.ListCreateAPIView):
     serializer_class = ClothesSerializer
     queryset = Clothes.objects.all()
     permission_classes = [DjangoModelPermissions]
 
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
+
 class ClothesDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ClothesSerializer
     queryset = Clothes.objects.all()
     permission_classes = [DjangoModelPermissions]
+
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
 
 class ColorList(generics.ListCreateAPIView):
     serializer_class = ColorSerializer
@@ -115,7 +138,7 @@ class ColorList(generics.ListCreateAPIView):
     permission_classes = [DjangoModelPermissions]
 
     def put(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.DATA)
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=False):
             return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
@@ -127,7 +150,7 @@ class ColorDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [DjangoModelPermissions]
 
     def put(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.DATA)
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=False):
             return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -138,87 +161,213 @@ class ConditionList(generics.ListCreateAPIView):
     queryset = Condition.objects.all()
     permission_classes = [DjangoModelPermissions]
 
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
+
 class ConditionDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ConditionSerializer
     queryset = Condition.objects.all()
     permission_classes = [DjangoModelPermissions]
+
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
 
 class FileList(generics.ListCreateAPIView):
     serializer_class = FileSerializer
     queryset = File.objects.all()
     permission_classes = [DjangoModelPermissions]
 
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
+
 class FileDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = FileSerializer
     queryset = File.objects.all()
     permission_classes = [DjangoModelPermissions]
+
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
 
 class GenderList(generics.ListCreateAPIView):
     serializer_class = GenderSerializer
     queryset = Gender.objects.all()
     permission_classes = [DjangoModelPermissions]
 
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
+
 class GenderDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = GenderSerializer
     queryset = Gender.objects.all()
     permission_classes = [DjangoModelPermissions]
+
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
 
 class GroupList(generics.ListCreateAPIView):
     serializer_class = GroupSerializer
     queryset = Group.objects.all()
     permission_classes = [DjangoModelPermissions]
 
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
+
 class GroupDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = GroupSerializer
     queryset = Group.objects.all()
     permission_classes = [DjangoModelPermissions]
+
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
 
 class PermissionList(generics.ListCreateAPIView):
     serializer_class = PermissionSerializer
     queryset = Permission.objects.all()
     permission_classes = [DjangoModelPermissions]
 
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
+
 class PermissionDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PermissionSerializer
     queryset = Permission.objects.all()
     permission_classes = [DjangoModelPermissions]
+
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
 
 class SchoolList(generics.ListCreateAPIView):
     serializer_class = SchoolSerializer
     queryset = Size.objects.all()
     permission_classes = [DjangoModelPermissions]
 
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
+
 class SchoolDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SchoolSerializer
     queryset = Size.objects.all()
     permission_classes = [DjangoModelPermissions]
+
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
 
 class SizeList(generics.ListCreateAPIView):
     serializer_class = SizeSerializer
     queryset = Size.objects.all()
     permission_classes = [DjangoModelPermissions]
 
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
+
 class SizeDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SizeSerializer
     queryset = Size.objects.all()
     permission_classes = [DjangoModelPermissions]
+
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
 
 class UserList(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     permission_classes = [DjangoModelPermissions]
 
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
+
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     permission_classes = [DjangoModelPermissions]
+
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
 
 class VerseList(generics.ListCreateAPIView):
     serializer_class = VerseSerializer
     queryset = Verse.objects.all()
     permission_classes = [DjangoModelPermissions]
 
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
+
 class VerseDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = VerseSerializer
     queryset = Verse.objects.all()
     permission_classes = [DjangoModelPermissions]
+
+    def put(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=False):
+            return JsonResponse(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        return super().put(request, *args, **kwargs)
