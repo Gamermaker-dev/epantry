@@ -15,17 +15,17 @@ function init() {
     
     // window.sessionStorage.clear();
     const cookieService = new CookieService();
-    const userService = new ModelService('users');
+    const userService = new ModelService('User', 'users');
     const securityService = new SecurityService(cookieService, userService);
-    const categoryService = new ModelService('categories');
-    const colorService = new ModelService('colors');
-    const conditionService = new ModelService('conditions');
-    const genderService = new ModelService('genders');
-    const groupService = new ModelService('groups');
-    const permissionService = new ModelService('permissions');
-    const schoolService = new ModelService('schools');
-    const sizeService = new ModelService('sizes');
-    const verseService = new ModelService('verses');
+    const categoryService = new ModelService('Category', 'categories');
+    const colorService = new ModelService('Color', 'colors');
+    const conditionService = new ModelService('Condition', 'conditions');
+    const genderService = new ModelService('Gender', 'genders');
+    const groupService = new ModelService('Group', 'groups');
+    const permissionService = new ModelService('Permission', 'permissions');
+    const schoolService = new ModelService('School', 'schools');
+    const sizeService = new ModelService('Size', 'sizes');
+    const verseService = new ModelService('Verse', 'verses');
 
     ReactDOM.render(
         <React.StrictMode>

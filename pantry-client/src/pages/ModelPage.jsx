@@ -3,8 +3,6 @@ import { Section, Container, Columns, Form, Button, } from "react-bulma-componen
 import RefuelBanner from "../components/RefuelBanner";
 import RefuelBreadcrumbs from "../components/RefuelBreadcrumbs";
 import RefuelToggleSwitch from "../components/RefuelBulmaComponents/RefuelToggleSwitch";
-import RefuelError from "../components/RefuelError";
-import { toast } from "bulma-toast";
 
 export default class ModelPage extends Component {
     constructor(props) {
@@ -39,15 +37,7 @@ export default class ModelPage extends Component {
     createModel(name, active) {
         this.props.modelService.create({name: name, is_active: active})
             .then((model) => {
-                window.location.href = `http://localhost:8000/pantry-admin/${this.props.modelName}/${model.id}`;
-            }, (rej) => {
-                const errorMessage = `${rej.errors[0].field}: ${rej.errors[0].message[0]}`
-                toast({
-                    message: errorMessage,
-                    type: 'is-danger',
-                    dismissible: true,
-                    animate: { in: 'fadeIn', out: 'fadeOut' },
-                });
+                window.location.href = `http://localhost:8000${this.props.path[1].url}`;
             });
     }
 
@@ -55,14 +45,6 @@ export default class ModelPage extends Component {
         this.props.modelService.update({id: id, name: name, is_active: active})
             .then((model) => {
                 this.setState({ model: model });
-            }, (rej) => {
-                const errorMessage = `${rej.errors[0].field}: ${rej.errors[0].message[0]}`
-                toast({
-                    message: errorMessage,
-                    type: 'is-danger',
-                    dismissible: true,
-                    animate: { in: 'fadeIn', out: 'fadeOut' },
-                });
             });
     }
 

@@ -64,6 +64,16 @@ export default class Home extends Component {
                                         >
                                             Login
                                         </Button>
+                                        <Button
+                                            color="refuel-grey"
+                                            onChange={null}
+                                            onClick={ (e) => {
+                                                e.preventDefault();
+                                                window.location.href = "http://localhost:8000/forgotpassword";
+                                            }}
+                                        >
+                                            Forgot Password?
+                                        </Button>
                                     </Form.Control>
                                 </Form.Field>
                             </form>

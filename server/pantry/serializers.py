@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from django.contrib.auth.models import User, Group, Permission
-from .models import Category, Clothes, Color, Condition, File, Gender, School, Size, Verse
+from .models import Category, Clothes, Color, Condition, File, Gender, School, Size, Verse, Wallet
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -54,12 +54,18 @@ class SizeSerializer(serializers.ModelSerializer):
         model = Size
         fields = ('id', 'name', 'category', 'is_active')
 
+class WalletSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Wallet
+        fields = ('id', 'user', 'currency', 'last_refill_date')
+
 class UserSerializer(serializers.ModelSerializer):
     groups_details = GroupSerializer(many=True, read_only=True, source='groups')
+    wallet = WalletSerializer(read_only=False,)
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'last_login', 'groups', 'groups_details', 'is_superuser', 'is_staff', 'is_active', 'date_joined')
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'last_login', 'groups', 'groups_details', 'is_superuser', 'is_staff', 'is_active', 'date_joined', 'wallet')
 
 class VerseSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
 
@@ -27,8 +27,9 @@ urlpatterns = [
     path('users/<int:pk>/', views.UserDetail.as_view()),
     path('verses/', views.VerseList.as_view()),
     path('verses/<int:pk>/', views.VerseDetail.as_view()),
-    path('login/', views.login),
-    path('logout/', views.logout),
+    path('login/', views.refuellogin),
+    path('logout/', views.refuellogout),
+    path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('verseoftheday/', views.verseoftheday),
 ]
 

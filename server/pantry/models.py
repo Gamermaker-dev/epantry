@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import date
+from datetime import date, datetime
 
 from django.contrib.auth.models import User
 
@@ -84,3 +84,9 @@ class Verse(models.Model):
     """Model representing a select set of scripture verses """
     verse = models.CharField(max_length=15)
     passage = models.TextField(max_length=700)
+
+class Wallet(models.Model):
+    """Model adding wallet information for user."""
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    currency = models.IntegerField(blank=False, null=False)
+    last_refill_date = models.DateTimeField(default=datetime.now)

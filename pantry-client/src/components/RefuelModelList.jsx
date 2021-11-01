@@ -14,14 +14,14 @@ export default class RefuelModelList extends Component {
         this.deleteModel = this.deleteModel.bind(this);
         this.renderTable = this.renderTable.bind(this);
         this.state = {
-            getService: this.props.modelService,
+            service: this.props.modelService,
         }
     }
 
     deleteModel(id) {
         this.state.service.delete(id)
             .then((res) => {
-                this.props.loadModels();
+                this.props.loadModels(this.props.activeTab);
                 return res;
             });
     }

@@ -13,6 +13,7 @@ export default class UserModelPage extends Component {
         this.state = {
             model: {
                 is_active: true, // make true by default for new categories
+                wallet: {}, // create blank wallet object
             },
             allGroups: [],
         };
@@ -46,7 +47,7 @@ export default class UserModelPage extends Component {
     createModel(newUser) {
         this.props.modelService.create(newUser)
             .then((model) => {
-                window.location.href = `http://localhost:8000/pantry-admin/${this.props.modelName}/${model.id}`;
+                window.location.href = `http://localhost:8000${this.props.path[1].url}`;
             });
     }
 
@@ -231,6 +232,33 @@ export default class UserModelPage extends Component {
                                                 readOnly={true}
                                                 disabled={true}
                                                 value={new Date(this.state.model.last_login).toLocaleString()}
+                                                type="text" />
+                                        </Form.Control>
+                                    </Form.Field>
+                                    <Form.Field>
+                                        <Form.Label>Currency</Form.Label>
+                                        <Form.Control>
+                                            <Form.Input
+                                                color="refuel"
+                                                value={this.state.model.wallet.currency}
+                                                type="number"
+                                                onChange={(e) => {
+                                                    return this.setState(prevState => {
+                                                        const newmodel = prevState.model;
+                                                        newmodel.wallet.currency = e.target.value;
+                                                        return newmodel;
+                                                    });
+                                                }} />
+                                        </Form.Control>
+                                    </Form.Field>
+                                    <Form.Field>
+                                        <Form.Label>Last Refill Date</Form.Label>
+                                        <Form.Control>
+                                            <Form.Input
+                                                color="refuel"
+                                                readOnly={true}
+                                                disabled={true}
+                                                value={new Date(this.state.model.wallet.last_refill_date).toLocaleString()}
                                                 type="text" />
                                         </Form.Control>
                                     </Form.Field>

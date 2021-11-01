@@ -43,7 +43,7 @@ export default class GroupModelPage extends Component {
     createModel(newGroup) {
         this.props.modelService.create(newGroup)
             .then((model) => {
-                window.location.href = `http://localhost:8000/pantry-admin/${this.props.modelName}/${model.id}`;
+                window.location.href = `http://localhost:8000${this.props.path[1].url}`;
             });
     }
 

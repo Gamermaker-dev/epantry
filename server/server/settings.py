@@ -26,9 +26,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("SECRET_KEY")
 
-BIBLE_API_KEY = env("BIBLE_API")
-BIBLE_ID = env("BIBLE_ID")
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -48,6 +45,7 @@ INSTALLED_APPS = [
     'pantry',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_rest_passwordreset',
 ]
 
 if ADMIN_ENABLED is True:
@@ -95,6 +93,11 @@ DATABASES = {
     }
 }
 
+# Email Settings
+# https://docs.djangoproject.com/en/3.2/topics/email/
+EMAIL_HOST = env("EMAIL_HOST")
+
+EMAIL_PORT = env("EMAIL_PORT")
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

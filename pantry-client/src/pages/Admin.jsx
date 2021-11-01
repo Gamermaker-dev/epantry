@@ -162,19 +162,24 @@ class AdminWithoutRouter extends Component {
         );
     }
 
-    renderModelList() {
-        let modelList = <RefuelModelList modelService={this.state.modelService} models={this.state.models} loadModels={this.loadModels} />;
+    renderModelList(createUrl, buttonName) {
+        let modelList = <RefuelModelList modelService={this.modelService} models={this.state.models} loadModels={this.loadModels} activeTab={this.state.activeTab} />;
 
         if (this.state.activeTab === 'user') {
-            modelList = <RefuelUserList modelService={this.state.modelService} models={this.state.models} loadModels={this.loadModels} />;
+            modelList = <RefuelUserList modelService={this.modelService} models={this.state.models} loadModels={this.loadModels} activeTab={this.state.activeTab} />;
         } else if (this.state.activeTab === 'group') {
-            modelList = <RefuelGroupList modelService={this.state.modelService} models={this.state.models} loadModels={this.loadModels} />;
+            modelList = <RefuelGroupList modelService={this.modelService} models={this.state.models} loadModels={this.loadModels} activeTab={this.state.activeTab} />;
         } else if (this.state.activeTab === 'verse') {
-            modelList = <RefuelVerseList modelService={this.state.modelService} models={this.state.models} loadModels={this.loadModels} />;
+            modelList = <RefuelVerseList modelService={this.modelService} models={this.state.models} loadModels={this.loadModels} activeTab={this.state.activeTab} />;
         }
         return (
             <Section>
                 <Container>
+                    <Columns>
+                        <Columns.Column size="one-third">
+                            <Button color="refuel" renderAs="a" href={createUrl}>New {buttonName}</Button>
+                        </Columns.Column>
+                    </Columns>
                     <Columns>
                         <Columns.Column>
                             {modelList}
@@ -248,12 +253,7 @@ class AdminWithoutRouter extends Component {
                 <RefuelBanner title={bannerTitle} subtitle={bannerSubtitle}></RefuelBanner>
                 <RefuelBreadcrumbs path={this.props.path} />
                 {this.renderTabs()}
-                {this.renderModelList()}
-                <Section>
-                    <Container>
-                        <Button color="refuel" renderAs="a" href={createUrl}>New {buttonName}</Button>
-                    </Container>
-                </Section>
+                {this.renderModelList(createUrl, buttonName)}
             </div>
         );
     }

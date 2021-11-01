@@ -5,6 +5,7 @@ import {
     Route,
     Redirect,
     useParams,
+    useLocation,
   } from "react-router-dom";
 import { toast } from "bulma-toast";
 
@@ -21,6 +22,8 @@ import ModelPage from "./pages/ModelPage";
 import UserModelPage from "./pages/ModelPages/UserModelPage";
 import GroupModelPage from "./pages/ModelPages/GroupModelPage";
 import VerseModelPage from "./pages/ModelPages/VerseModelPage";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
   
 
 class App extends Component {
@@ -46,6 +49,12 @@ class App extends Component {
             .then((res) => {
                 this.setState({isAuthenticated: res});
                 this.getUser();
+                toast({
+                    message: 'Login successful!',
+                    type: 'is-success',
+                    dismissible: true,
+                    animate: { in: 'fadeIn', out: 'fadeOut' },
+                });
             }, (rej) => {
                 const errorMessage = `${rej.errors[0].field}: ${rej.errors[0].message[0]}`
                 toast({
@@ -61,6 +70,12 @@ class App extends Component {
         this.props.securityService.logout()
             .then((res) => {
                 this.setState({isAuthenticated: res});
+                toast({
+                    message: 'Logout successful!',
+                    type: 'is-success',
+                    dismissible: true,
+                    animate: { in: 'fadeIn', out: 'fadeOut' },
+                });
                 window.location.href = 'http://localhost:8000';
             }, (rej) => {
                 const errorMessage = `${rej.errors[0].field}: ${rej.errors[0].message[0]}`
@@ -89,10 +104,14 @@ class App extends Component {
             {url: '/', name: 'Home', active: false}
         ];
 
+        let query = useQuery();
+
         const aboutPath = homePath.slice().concat([{url: '/about', name: 'About', active: false}]);
         const contactPath = homePath.slice().concat([{url: '/contact', name: 'Contact', active: false}]);
         const pantryPath = homePath.slice().concat([{url: '/pantry', name: 'Pantry', active: false}]);
         const profilePath = homePath.slice().concat([{url: '/profile', name: 'Profile', active: false}]);
+        const forgotPasswordPath = homePath.slice().concat([{url: '/forgotpassword', name: 'Forgot Password', active: false}]);
+        const resetPasswordPath = homePath.slice().concat([{url: '/resetpassword', name: 'Reset Password', active: false}]);
         const adminPath = homePath.slice().concat([{url: '/pantry-admin', name: 'Admin', active: false}]);
         const categoryPath = adminPath.slice().concat([{url: '/category/', name: 'Category', active: false}]);
         const colorPath = adminPath.slice().concat([{url: '/color/', name: 'Color', active: false}]);
@@ -131,6 +150,12 @@ class App extends Component {
                             <Profile user={this.state.user} path={profilePath}
                             {...this.props} />
                         </Route>
+                        <Route exact path="/forgotpassword">
+                            <ForgotPassword path={forgotPasswordPath} {...this.props} />
+                        </Route>
+                        <Route exact path="/resetpassword">
+                            <ResetPassword path={resetPasswordPath} token={query.get("token")} {...this.props} />
+                        </Route>
                         <Route exact path="/pantry-admin">
                             <Admin path={adminPath} {...this.props} />
                         </Route>
@@ -151,6 +176,14 @@ class App extends Component {
             </div>
         );
     }
+}
+
+function useQuery() {
+    return new URLSearchParams(useLocation().search);
+}
+
+function HistoryRoute(props) {
+    
 }
 
 function ModelWithParams(props) {
