@@ -5,10 +5,10 @@ import {
     Columns,
     Form,
     Button,
-    Progress,
 } from "react-bulma-components";
 import RefuelBanner from "../components/RefuelBanner";
 import RefuelBreadcrumbs from "../components/RefuelBreadcrumbs";
+import RefuelLoadBar from "../components/RefuelLoadBar";
 
 export default class Home extends Component {
     constructor(props) {
@@ -151,11 +151,7 @@ export default class Home extends Component {
             ];
         } else {
             section = [
-                <Section>
-                    <Container>
-                        <Progress max="100" size="large" color="refuel" />
-                    </Container>
-                </Section>
+                <RefuelLoadBar />
             ]
         }
 

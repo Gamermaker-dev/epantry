@@ -17,9 +17,6 @@ export default class ModelService {
         return axios.get(url)
             .then((res) => {
                 return res.data;
-            })
-            .catch((err) => {
-                return Promise.reject(err.response.data);
             });
     }
 
@@ -33,17 +30,6 @@ export default class ModelService {
                     animate: { in: 'fadeIn', out: 'fadeOut' },
                 });
                 return res.data;
-            })
-            .catch((err) => {
-                const rej = err.response.data;
-                const errorMessage = `${rej.errors[0].field}: ${rej.errors[0].message[0]}`
-                toast({
-                    message: errorMessage,
-                    type: 'is-danger',
-                    dismissible: true,
-                    animate: { in: 'fadeIn', out: 'fadeOut' },
-                });
-                return Promise.reject(rej);
             });
     }
 
@@ -57,17 +43,6 @@ export default class ModelService {
                     animate: { in: 'fadeIn', out: 'fadeOut' },
                 });
                 return res.data;
-            })
-            .catch((err) => {
-                const rej = err.response.data;
-                const errorMessage = `${rej.errors[0].field}: ${rej.errors[0].message[0]}`
-                toast({
-                    message: errorMessage,
-                    type: 'is-danger',
-                    dismissible: true,
-                    animate: { in: 'fadeIn', out: 'fadeOut' },
-                });
-                return Promise.reject(err.response.data);
             });
     }
     
@@ -81,17 +56,6 @@ export default class ModelService {
                     animate: { in: 'fadeIn', out: 'fadeOut' },
                 });
                 return 'Delete was successful';
-            })
-            .catch((err) => {
-                const rej = err.response.data;
-                const errorMessage = `${rej.errors[0].field}: ${rej.errors[0].message[0]}`
-                toast({
-                    message: errorMessage,
-                    type: 'is-danger',
-                    dismissible: true,
-                    animate: { in: 'fadeIn', out: 'fadeOut' },
-                });
-                return Promise.reject(err.response.data);
-            })
+            });
     }
 }

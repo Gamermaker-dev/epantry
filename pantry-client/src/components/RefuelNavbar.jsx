@@ -19,7 +19,7 @@ export default class RefuelNavbar extends Component {
                     active={true}
                 >
                     <Navbar.Brand>
-                        <Navbar.Item renderAs="a" href="https://lmbc.org/refuel">
+                        <Navbar.Item renderAs="a" href="/">
                             <img src="/img/ReFuel.png" />
                         </Navbar.Item>
                     </Navbar.Brand>
@@ -28,7 +28,7 @@ export default class RefuelNavbar extends Component {
                             <Navbar.Item href="/">
                                 Home
                             </Navbar.Item>
-                            <Navbar.Item href="#">
+                            <Navbar.Item href="/pantry">
                                 Pantry
                             </Navbar.Item>
                             <Navbar.Item href="/pantry-admin">

@@ -68,7 +68,7 @@ class AdminWithoutRouter extends Component {
                     return {models: models, activeTab: tab};
                 });
             })
-            .catch((err) => {
+            .catch(() => {
                 this.setState(prevState => {
                     return {models: null, activeTab: tab };
                 });

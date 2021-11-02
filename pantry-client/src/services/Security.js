@@ -1,5 +1,4 @@
 import axios from "axios";
-import { toast } from "bulma-toast";
 
 export default class SecurityService {
     constructor(cookieService, userService) {
@@ -67,9 +66,6 @@ export default class SecurityService {
                 window.localStorage.removeItem("user");
                 this.userAuthenticated = false;
                 return Promise.resolve(this.userAuthenticated);
-            })
-            .catch((err) => {
-                return Promise.reject(err.response.data);
             });
     }
 
@@ -77,9 +73,23 @@ export default class SecurityService {
         return axios.post("/password_reset/", {email: email})
             .then((res) => {
                 return res.data;
+            });
+    }
+
+    changePassword(token, password) {
+        return axios.post("/password_reset/confirm/", {token: token, password: password})
+            .then((res) => {
+                return res.data;
+            });
+    }
+
+    validateToken(token) {
+        return axios.post("/password_reset/validate_token/", {token: token})
+            .then((res) => {
+                return true;
             })
-            .catch((err) => {
-                return Promise.reject(err.response.data);
+            .catch(() => {
+                return false;
             });
     }
 

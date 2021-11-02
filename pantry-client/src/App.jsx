@@ -6,6 +6,7 @@ import {
     Redirect,
     useParams,
     useLocation,
+    useHistory,
   } from "react-router-dom";
 import { toast } from "bulma-toast";
 
@@ -14,6 +15,7 @@ import RefuelFooter from "./components/RefuelFooter";
 
 // import Pages
 import Home from "./pages/Home";
+import Pantry from "./pages/Pantry";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Profile from "./pages/Profile";
@@ -55,14 +57,6 @@ class App extends Component {
                     dismissible: true,
                     animate: { in: 'fadeIn', out: 'fadeOut' },
                 });
-            }, (rej) => {
-                const errorMessage = `${rej.errors[0].field}: ${rej.errors[0].message[0]}`
-                toast({
-                    message: errorMessage,
-                    type: 'is-danger',
-                    dismissible: true,
-                    animate: { in: 'fadeIn', out: 'fadeOut' },
-                });
             });
     }
 
@@ -77,14 +71,6 @@ class App extends Component {
                     animate: { in: 'fadeIn', out: 'fadeOut' },
                 });
                 window.location.href = 'http://localhost:8000';
-            }, (rej) => {
-                const errorMessage = `${rej.errors[0].field}: ${rej.errors[0].message[0]}`
-                toast({
-                    message: errorMessage,
-                    type: 'is-danger',
-                    dismissible: true,
-                    animate: { in: 'fadeIn', out: 'fadeOut' },
-                });
             });
     }
 
@@ -103,8 +89,6 @@ class App extends Component {
         const homePath = [
             {url: '/', name: 'Home', active: false}
         ];
-
-        let query = useQuery();
 
         const aboutPath = homePath.slice().concat([{url: '/about', name: 'About', active: false}]);
         const contactPath = homePath.slice().concat([{url: '/contact', name: 'Contact', active: false}]);
@@ -146,6 +130,9 @@ class App extends Component {
                         <Route exact path="/contact">
                             <Contact path={contactPath} {...this.props} />
                         </Route>
+                        <Route exact path="/pantry">
+                            <PantryWithParams component={<Pantry path={pantryPath} {...this.props} />} />
+                        </Route>
                         <Route exact path="/profile">
                             <Profile user={this.state.user} path={profilePath}
                             {...this.props} />
@@ -154,21 +141,21 @@ class App extends Component {
                             <ForgotPassword path={forgotPasswordPath} {...this.props} />
                         </Route>
                         <Route exact path="/resetpassword">
-                            <ResetPassword path={resetPasswordPath} token={query.get("token")} {...this.props} />
+                            <ResetPasswordWithToken component={<ResetPassword path={resetPasswordPath} {...this.props} />} />
                         </Route>
                         <Route exact path="/pantry-admin">
                             <Admin path={adminPath} {...this.props} />
                         </Route>
-                        <Route exact path="/pantry-admin/category/:id" children={<ModelWithParams path={categoryPath} modelName='category' modelService={this.props.categoryService} {...this.props} />} />
-                        <Route exact path="/pantry-admin/color/:id" children={<ModelWithParams path={colorPath} modelName='color' modelService={this.props.colorService} {...this.props} />} />
+                        <Route exact path="/pantry-admin/category/:id" children={<ModelWithParams component={<ModelPage path={categoryPath} modelName='category' modelService={this.props.categoryService} {...this.props} />} />} />
+                        <Route exact path="/pantry-admin/color/:id" children={<ModelWithParams component={<ModelPage path={colorPath} modelName='color' modelService={this.props.colorService} {...this.props} />} />} />
                         <Route exact path="/pantry-admin/condition/:id" children={<ModelWithParams path={conditionPath} modelName='condition' modelService={this.props.conditionService} {...this.props} />} />
                         <Route exact path="/pantry-admin/gender/:id" children={<ModelWithParams path={genderPath} modelName='gender' modelService={this.props.genderService} {...this.props} />} />
-                        <Route exact path="/pantry-admin/group/:id" children={<ModelWithParams path={groupPath} modelName='group' modelService={this.props.groupService} {...this.props} />} />
+                        <Route exact path="/pantry-admin/group/:id" children={<ModelWithParams component={<GroupModelPage path={groupPath} modelName='group' modelService={this.props.groupService} {...this.props} />} />} />
                         <Route exact path="/pantry-admin/permission/:id" children={<ModelWithParams path={permissionPath} modelName='permission' modelService={this.props.permissionService} {...this.props} />} />
                         <Route exact path="/pantry-admin/school/:id" children={<ModelWithParams path={schoolPath} modelName='school' modelService={this.props.schoolService} {...this.props} />} />
                         <Route exact path="/pantry-admin/size/:id" children={<ModelWithParams path={sizePath} modelName='size' modelService={this.props.sizeService} {...this.props} />} />
-                        <Route exact path="/pantry-admin/user/:id" children={<ModelWithParams path={userPath} modelName='user' modelService={this.props.userService} {...this.props} />} />
-                        <Route exact path="/pantry-admin/verse/:id" children={<ModelWithParams path={versePath} modelName='verse' modelService={this.props.verseService} {...this.props} />} />
+                        <Route exact path="/pantry-admin/user/:id" children={<ModelWithParams component={<UserModelPage path={userPath} modelName='user' modelService={this.props.userService} {...this.props} />} />} />
+                        <Route exact path="/pantry-admin/verse/:id" children={<ModelWithParams component={<VerseModelPage path={versePath} modelName='verse' modelService={this.props.verseService} {...this.props} />} />} />
                         <Redirect to="/" />
                     </Switch>
                 </Router>
@@ -182,32 +169,23 @@ function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
 
-function HistoryRoute(props) {
-    
-}
-
 function ModelWithParams(props) {
     let { id } = useParams();
 
-    let el =  (
-        <ModelPage id={id} {...props} />
-    );
+    return React.cloneElement(props.component, {id: id});
+}
 
-    if (props.modelName === 'user') {
-        el = (
-            <UserModelPage id={id} {...props} />
-        );
-    } else if (props.modelName === 'group') {
-        el = (
-            <GroupModelPage id={id} {...props} />
-        );
-    } else if (props.modelName === 'verse') {
-        el = (
-            <VerseModelPage id={id} {...props} />
-        );
-    }
+function ResetPasswordWithToken(props) {
+    let query = useQuery();
+    let history = useHistory();
 
-    return  el;
+    return React.cloneElement(props.component, {token: query.get("token"), history: history});
+}
+
+function PantryWithParams(props) {
+    let query = useQuery();
+
+    return React.cloneElement(props.component, {params: query});
 }
 
 export default App;

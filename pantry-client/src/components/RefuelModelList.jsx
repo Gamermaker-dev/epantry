@@ -3,10 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import {
     Table,
-    Progress,
     Icon,
 } from "react-bulma-components";
-import { icon } from "@fortawesome/fontawesome-svg-core";
+import RefuelLoadBar from "./RefuelLoadBar";
 
 export default class RefuelModelList extends Component {
     constructor(props) {
@@ -58,7 +57,7 @@ export default class RefuelModelList extends Component {
 
         if (this.props.models === null) {
             elements = (
-                <Progress max="100" size="large" color="refuel" />
+                <RefuelLoadBar />
             );
         } else {
             elements = this.renderTable();

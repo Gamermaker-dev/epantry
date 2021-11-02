@@ -1,7 +1,9 @@
+import { toast } from "bulma-toast";
 import React, { Component } from "react";
 import { Columns, Container, Section, } from "react-bulma-components";
 import RefuelBanner from "../components/RefuelBanner";
 import RefuelBreadcrumbs from "../components/RefuelBreadcrumbs";
+import RefuelLoadBar from "../components/RefuelLoadBar";
 import RefuelPasswordForm from "../components/RefuelPasswordForm";
 
 export default class ResetPassword extends Component {
@@ -12,22 +14,39 @@ export default class ResetPassword extends Component {
         }
 
         this.resetPassword = this.resetPassword.bind(this);
+        this.validateToken = this.validateToken.bind(this);
         this.state = {
             token: this.props.token,
+            valid: false,
         };
 
         this.props.path[1].active = true;
+
+        this.validateToken(this.props.token);
     }
 
     resetPassword(passwordObj) {
-        this.props.securityService.changePassword(passwordObj)
-            .then((res) => {
+        this.props.securityService.changePassword(this.state.token, passwordObj.newPassword)
+            .then(() => {
+                toast({
+                    message: 'Password change successful!',
+                    type: 'is-success',
+                    dismissible: true,
+                    animate: { in: 'fadeIn', out: 'fadeOut' },
+                })
                 this.props.history.push('/home');
             });
     }
 
+    validateToken(token) {
+        this.props.securityService.validateToken(token)
+            .then(() => {
+                this.setState({ valid: true });
+            });
+    }
+
     render() {
-        return (
+        return this.state.valid ? (
             <div>
                 <RefuelBanner title="Reset Password" />
                 <RefuelBreadcrumbs path={this.props.path} />
@@ -41,6 +60,8 @@ export default class ResetPassword extends Component {
                     </Container>
                 </Section>
             </div>
+        ) : (
+            <RefuelLoadBar />
         );
     }
 }
