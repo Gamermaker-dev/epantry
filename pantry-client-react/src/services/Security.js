@@ -66,7 +66,6 @@ export default class SecurityService {
             .then((res) => {
                 window.localStorage.removeItem("user");
                 this.userAuthenticated = false;
-                this.user = {};
                 return Promise.resolve(this.userAuthenticated);
             })
             .catch((err) => {

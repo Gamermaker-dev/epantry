@@ -1,0 +1,92 @@
+// Import Bulma's core
+@import "../../node_modules/bulma/sass/utilities/_all";
+
+// Set your colors
+$refuel: #cd7535;
+$refuel-light: findLightColor($refuel);
+$refuel-dark: findDarkColor($refuel);
+$refuel-invert: findColorInvert($refuel);
+$refuelgrey: #393c45;
+$refuelgrey-invert: findColorInvert($refuelgrey);
+
+// Lists and maps
+$custom-colors: ("refuel": ($refuel, $refuel-invert, $refuel-light, $refuel-dark), "refuelgrey": ($refuelgrey, $refuelgrey-invert));
+
+$colors: mergeColorMaps(
+    (
+        "white": (
+            $white,
+            $black,
+        ),
+        "black": (
+            $black,
+            $white,
+        ),
+        "light": (
+            $light,
+            $light-invert,
+        ),
+        "dark": (
+            $dark,
+            $dark-invert,
+        ),
+        "primary": (
+            $primary,
+            $primary-invert,
+            $primary-light,
+            $primary-dark,
+        ),
+        "link": (
+            $link,
+            $link-invert,
+            $link-light,
+            $link-dark,
+        ),
+        "info": (
+            $info,
+            $info-invert,
+            $info-light,
+            $info-dark,
+        ),
+        "success": (
+            $success,
+            $success-invert,
+            $success-light,
+            $success-dark,
+        ),
+        "warning": (
+            $warning,
+            $warning-invert,
+            $warning-light,
+            $warning-dark,
+        ),
+        "danger": (
+            $danger,
+            $danger-invert,
+            $danger-light,
+            $danger-dark,
+        ),
+    ),
+    $custom-colors
+);
+
+$link: $refuel;
+
+// set navbar variables
+// $navbar-background-color: $refuel;
+// $navbar-box-shadow-color: $refuel-dark;
+// $navbar-item-active-background-color: $refuelgrey;
+// $navbar-item-active-color: $refuel-invert;
+
+// set tabs variables
+$tabs-border-bottom-color: $refuelgrey;
+$tabs-link-color: $refuelgrey;
+$tabs-link-active-border-bottom-color: $refuelgrey;
+$tabs-link-active-color: $refuel;
+$tabs-link-hover-border-bottom-color: $refuelgrey;
+$tabs-link-hover-color: $refuel;
+
+
+// Import Bulma and Buefy styles
+@import "../../node_modules/bulma/bulma";
+@import "../../node_modules/buefy/src/scss/buefy";

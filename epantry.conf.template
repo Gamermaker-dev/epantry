@@ -12,16 +12,20 @@ server {
         include /etc/nginx/uwsgi_params;
     }
 
-    location /media {
-        alias $EPANTRY_PATH/pantry-client/build/img;
+    location /css {
+        alias $EPANTRY_PATH/pantry-client/dist/css;
+    }
+    
+    location /img {
+        alias $EPANTRY_PATH/pantry-client/dist/img;
     }
 
-    location /static {
-        alias $EPANTRY_PATH/pantry-client/build/static;
+    location /js {
+        alias $EPANTRY_PATH/pantry-client/dist/js;
     }
 
     location / {
-        root $EPANTRY_PATH/pantry-client/build;
+        root $EPANTRY_PATH/pantry-client/dist;
         index index.html;
         try_files $uri $uri/ /index.html;
     }
