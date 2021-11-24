@@ -11869,6 +11869,10 @@ body {
   min-height: 100vh;
   flex-direction: column; }
 
+.button, .file {
+  margin: 5px;
+  display: inline-flex; }
+
 .footer {
   margin-top: auto; }
 

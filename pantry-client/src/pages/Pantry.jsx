@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 import { Section, Container, Columns, } from "react-bulma-components";
+import { withRouter } from "react-router";
+import RefuelBanner from "../components/RefuelBanner";
+import RefuelBreadcrumbs from "../components/RefuelBreadcrumbs";
 import RefuelClothingCard from "../components/RefuelClothingCard";
 import RefuelLoadBar from "../components/RefuelLoadBar";
 
-export default class Pantry extends Component {
+class Pantry extends Component {
     constructor(props) {
         super(props);
         this.loadClothes = this.loadClothes.bind(this);
+        this.renderCards = this.renderCards.bind(this);
         this.state = {
             loading: true,
             clothes: [],
@@ -22,19 +26,35 @@ export default class Pantry extends Component {
             });
     }
 
+    renderCards() {
+        let el = [];
+
+        this.state.clothes.map((c) => {
+            el.push(
+                <Columns.Column size="one-fifth">
+                    <RefuelClothingCard clothing={c} />
+                </Columns.Column>
+            );
+        });
+
+        return el;
+    }
+
     render() {
         return this.state.loading ? <RefuelLoadBar /> : (
-            <Section>
-                <Container>
-                    <Columns multiline={true}>
-                        {this.state.clothes.map((c, i) => {
-                            <Columns.Column size="one-fifth">
-                                <RefuelClothingCard clothing={c} />
-                            </Columns.Column>
-                        })}
-                    </Columns>
-                </Container>
-            </Section>  
+            <div>
+                <RefuelBanner title="Pantry" subtitle="Everything Is Free" />
+                <RefuelBreadcrumbs location={this.props.location} />
+                <Section>
+                    <Container>
+                        <Columns multiline={true}>
+                            {this.renderCards()}
+                        </Columns>
+                    </Container>
+                </Section>  
+            </div>
         );
     }
 }
+
+export default Pantry = withRouter(Pantry);

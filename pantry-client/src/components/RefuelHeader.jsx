@@ -11,6 +11,7 @@ export default class RefuelHeader extends Component {
             <RefuelNavbar 
                 userAuthenticated={this.props.userAuthenticated}
                 securityService={this.props.securityService}
+                currency={this.props.currency}
                 logout={this.props.logout}
             ></RefuelNavbar>
         );

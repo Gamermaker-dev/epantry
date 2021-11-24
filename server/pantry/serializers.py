@@ -8,11 +8,6 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ('id', 'name', 'is_active')
 
-class ClothesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Clothes
-        fields = ('id', 'category', 'size', 'gender', 'color', 'condition', 'image', 'user', 'file', 'brand', 'description', 'inventory_date', 'date_checked_out' )
-
 class ColorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Color
@@ -26,6 +21,7 @@ class ConditionSerializer(serializers.ModelSerializer):
 class FileSerializer(serializers.ModelSerializer):
     class Meta:
         model = File
+        fields = ('id', 'filename', 'date_imported')
 
 class GenderSerializer(serializers.ModelSerializer):
     class Meta:
@@ -71,3 +67,14 @@ class VerseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Verse
         fields = ('id', 'verse', 'passage')
+
+class ClothesSerializer(serializers.ModelSerializer):
+    category_details = CategorySerializer(many=False, read_only=True, source='category')
+    size_details = SizeSerializer(many=False, read_only=True, source='size')
+    gender_details = GenderSerializer(many=False, read_only=True, source='gender')
+    color_details = ColorSerializer(many=False, read_only=True, source='color')
+    condition_details = ConditionSerializer(many=False, read_only=True, source='condition')
+
+    class Meta:
+        model = Clothes
+        fields = ('id', 'category', 'category_details', 'size', 'size_details', 'gender', 'gender_details', 'color', 'color_details', 'condition', 'condition_details', 'image', 'user', 'file', 'brand', 'price', 'description', 'inventory_date', 'date_added_to_cart', 'date_checked_out' )

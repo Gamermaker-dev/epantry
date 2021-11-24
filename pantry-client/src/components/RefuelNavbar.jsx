@@ -1,6 +1,9 @@
 import React, { Component } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faWallet } from "@fortawesome/free-solid-svg-icons";
 import {
-    Navbar
+    Navbar,
+    Icon,
 } from "react-bulma-components";
 
 export default class RefuelNavbar extends Component {
@@ -42,8 +45,11 @@ export default class RefuelNavbar extends Component {
                             </Navbar.Item>
                         </Navbar.Container>
                         <Navbar.Container align="right">
+                            <Navbar.Item renderAs="div">
+                                <Icon color="white" size="medium"><FontAwesomeIcon icon={faWallet} /></Icon> {this.props.currency} RFP
+                            </Navbar.Item>
                             <Navbar.Item href="/profile">
-                                Profile
+                                <Icon color="white" size="medium"><FontAwesomeIcon icon={faUser} /></Icon>
                             </Navbar.Item>
                             <Navbar.Item href="#"
                                         onClick={this.props.logout}>

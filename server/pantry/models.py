@@ -25,8 +25,10 @@ class Clothes(models.Model):
     file = models.ForeignKey('File', on_delete=models.SET_NULL, null=True, blank=True)
     brand = models.CharField(max_length=50, help_text="Brand of clothing, if available", null=True, blank=True)
     school = models.ForeignKey('School', on_delete=models.SET_NULL, null=True, blank=True,)
+    price = models.IntegerField(blank=False, null=False, default=100)
     description = models.TextField(max_length=500, help_text="Brief description of clothing", null=True, blank=True)
     inventory_date = models.DateField(help_text="Date the item of clothing was added to the pantry", default=date.today)
+    date_added_to_cart = models.DateField(help_text="Date the item of clothing was added to users cart", null=True, blank=True)
     date_checked_out = models.DateField(help_text="Date the item of clothing was checked out", null=True, blank=True)
 
     def __str__(self):

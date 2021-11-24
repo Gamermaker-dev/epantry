@@ -1,32 +1,9 @@
 import React, { Component } from "react";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Redirect,
-    useParams,
-    useLocation,
-    useHistory,
-  } from "react-router-dom";
 import { toast } from "bulma-toast";
 
 import RefuelHeader from "./components/RefuelHeader";
 import RefuelFooter from "./components/RefuelFooter";
-
-// import Pages
-import Home from "./pages/Home";
-import Pantry from "./pages/Pantry";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Profile from "./pages/Profile";
-import Admin from "./pages/Admin";
-import ModelPage from "./pages/ModelPage";
-import UserModelPage from "./pages/ModelPages/UserModelPage";
-import GroupModelPage from "./pages/ModelPages/GroupModelPage";
-import VerseModelPage from "./pages/ModelPages/VerseModelPage";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
-  
+import { RefuelRouter } from "./router/RefuelRouter";
 
 class App extends Component {
     constructor(props) {
@@ -37,6 +14,7 @@ class App extends Component {
         this.state = {
             isAuthenticated: this.props.securityService.isUserAuthenticated(),
             user: null,
+            cart: [],
             loginErrors: [],
         }
         
@@ -84,108 +62,47 @@ class App extends Component {
         }
     }
 
+    getCart() {
+        if (this.state.user) {
+            this.props.clothesService.getCart(this.state)
+                .then((cart) => {
+                    this.setState({cart: cart});
+                });
+        }
+    }
+
+    addToCart(id, price) {
+        let cost = 0;
+
+        this.state.cart.map((c) => {
+            cost += c.price;
+        });
+
+        if ((price+cost) <= 300) {
+            // add to cart
+        } else {
+            toast({
+                message: 'You have exceeded the max amount of clothes for the month.',
+                type: 'is-danger',
+                dismissible: true,
+                animate: { in: 'fadeIn', out: 'fadeOut' },
+            });
+        }
+    }
+
     render() {
-        // setup paths for breadcrumb for each page
-        const homePath = [
-            {url: '/', name: 'Home', active: false}
-        ];
-
-        const aboutPath = homePath.slice().concat([{url: '/about', name: 'About', active: false}]);
-        const contactPath = homePath.slice().concat([{url: '/contact', name: 'Contact', active: false}]);
-        const pantryPath = homePath.slice().concat([{url: '/pantry', name: 'Pantry', active: false}]);
-        const profilePath = homePath.slice().concat([{url: '/profile', name: 'Profile', active: false}]);
-        const forgotPasswordPath = homePath.slice().concat([{url: '/forgotpassword', name: 'Forgot Password', active: false}]);
-        const resetPasswordPath = homePath.slice().concat([{url: '/resetpassword', name: 'Reset Password', active: false}]);
-        const adminPath = homePath.slice().concat([{url: '/pantry-admin', name: 'Admin', active: false}]);
-        const categoryPath = adminPath.slice().concat([{url: '/category/', name: 'Category', active: false}]);
-        const colorPath = adminPath.slice().concat([{url: '/color/', name: 'Color', active: false}]);
-        const conditionPath = adminPath.slice().concat([{url: '/condition/', name: 'Condition', active: false}]);
-        const genderPath = adminPath.slice().concat([{url: '/gender/', name: 'Gender', active: false}]);
-        const groupPath = adminPath.slice().concat([{url: '/group/', name: 'Group', active: false}]);
-        const permissionPath = adminPath.slice().concat([{url: '/permission/', name: 'Permission', active: false}]);
-        const schoolPath = adminPath.slice().concat([{url: '/school/', name: 'School', active: false}]);
-        const sizePath = adminPath.slice().concat([{url: '/size/', name: 'Size', active: false}]);
-        const userPath = adminPath.slice().concat([{url: '/user/', name: 'User', active: false}]);
-        const versePath = adminPath.slice().concat([{url: '/verse/', name: 'Verse', active: false}]);
-
         return (
             <div>
                 <RefuelHeader
                   userAuthenticated={this.state.isAuthenticated}
+                  currency={this.state.user ? this.state.user.currency : 0}
                   logout={this.logout}
                  {...this.props}></RefuelHeader>
-                <Router>
-                    <Switch>
-                        <Route exact path="/">
-                            <Home 
-                            userAuthenticated={this.state.isAuthenticated}
-                            login={this.login}
-                            user={this.state.user}
-                            path={homePath}
-                            {...this.props} />
-                        </Route>
-                        <Route exact path="/about">
-                            <About path={aboutPath} {...this.props} />
-                        </Route>
-                        <Route exact path="/contact">
-                            <Contact path={contactPath} {...this.props} />
-                        </Route>
-                        <Route exact path="/pantry">
-                            <PantryWithParams component={<Pantry path={pantryPath} {...this.props} />} />
-                        </Route>
-                        <Route exact path="/profile">
-                            <Profile user={this.state.user} path={profilePath}
-                            {...this.props} />
-                        </Route>
-                        <Route exact path="/forgotpassword">
-                            <ForgotPassword path={forgotPasswordPath} {...this.props} />
-                        </Route>
-                        <Route exact path="/resetpassword">
-                            <ResetPasswordWithToken component={<ResetPassword path={resetPasswordPath} {...this.props} />} />
-                        </Route>
-                        <Route exact path="/pantry-admin">
-                            <Admin path={adminPath} {...this.props} />
-                        </Route>
-                        <Route exact path="/pantry-admin/category/:id" children={<ModelWithParams component={<ModelPage path={categoryPath} modelName='category' modelService={this.props.categoryService} {...this.props} />} />} />
-                        <Route exact path="/pantry-admin/color/:id" children={<ModelWithParams component={<ModelPage path={colorPath} modelName='color' modelService={this.props.colorService} {...this.props} />} />} />
-                        <Route exact path="/pantry-admin/condition/:id" children={<ModelWithParams path={conditionPath} modelName='condition' modelService={this.props.conditionService} {...this.props} />} />
-                        <Route exact path="/pantry-admin/gender/:id" children={<ModelWithParams path={genderPath} modelName='gender' modelService={this.props.genderService} {...this.props} />} />
-                        <Route exact path="/pantry-admin/group/:id" children={<ModelWithParams component={<GroupModelPage path={groupPath} modelName='group' modelService={this.props.groupService} {...this.props} />} />} />
-                        <Route exact path="/pantry-admin/permission/:id" children={<ModelWithParams path={permissionPath} modelName='permission' modelService={this.props.permissionService} {...this.props} />} />
-                        <Route exact path="/pantry-admin/school/:id" children={<ModelWithParams path={schoolPath} modelName='school' modelService={this.props.schoolService} {...this.props} />} />
-                        <Route exact path="/pantry-admin/size/:id" children={<ModelWithParams path={sizePath} modelName='size' modelService={this.props.sizeService} {...this.props} />} />
-                        <Route exact path="/pantry-admin/user/:id" children={<ModelWithParams component={<UserModelPage path={userPath} modelName='user' modelService={this.props.userService} {...this.props} />} />} />
-                        <Route exact path="/pantry-admin/verse/:id" children={<ModelWithParams component={<VerseModelPage path={versePath} modelName='verse' modelService={this.props.verseService} {...this.props} />} />} />
-                        <Redirect to="/" />
-                    </Switch>
-                </Router>
+                <RefuelRouter {...this.props}></RefuelRouter>
                 <RefuelFooter {...this.props}></RefuelFooter>
             </div>
         );
     }
-}
-
-function useQuery() {
-    return new URLSearchParams(useLocation().search);
-}
-
-function ModelWithParams(props) {
-    let { id } = useParams();
-
-    return React.cloneElement(props.component, {id: id});
-}
-
-function ResetPasswordWithToken(props) {
-    let query = useQuery();
-    let history = useHistory();
-
-    return React.cloneElement(props.component, {token: query.get("token"), history: history});
-}
-
-function PantryWithParams(props) {
-    let query = useQuery();
-
-    return React.cloneElement(props.component, {params: query});
 }
 
 export default App;

@@ -165,3 +165,5 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SAMESITE = 'Strict'
 CSRF_COOKIE_SECURE = True
+
+MEDIA_ROOT = '/home/gamermakerdev/dev/epantry/pantry-client/public'

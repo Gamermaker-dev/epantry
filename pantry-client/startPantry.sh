@@ -1,6 +1,9 @@
 #!/bin/bash
 
-export $(grep -v '^#' ../.env | xargs -d '\n')
+ENV_PATH=/home/gamermakerdev/dev/epantry
+export ENV_PATH
+
+export $(grep -v '^#' $ENV_PATH/.env | xargs -d '\n')
 
 # Use envsubst to create nginx conf file using env variables
 envsubst '$EPANTRY_PATH $NGINX_SERVER $NGINX_PORT' < $EPANTRY_PATH/epantry.conf.template > $EPANTRY_PATH/epantry.conf

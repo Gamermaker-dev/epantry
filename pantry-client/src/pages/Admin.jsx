@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Section, Columns, Container, Tabs, Button, } from "react-bulma-components";
+import { Section, Columns, Container, Tabs, Button, Form, } from "react-bulma-components";
 import { withRouter } from "react-router";
 import RefuelBanner from "../components/RefuelBanner";
 import RefuelBreadcrumbs from "../components/RefuelBreadcrumbs";
 
 import RefuelModelList from "../components/RefuelModelList";
+import RefuelClothesList from "../components/ModelLists/RefuelClothesList";
 import RefuelUserList from "../components/ModelLists/RefuelUserList";
 import RefuelGroupList from "../components/ModelLists/RefuelGroupList";
 import RefuelVerseList from "../components/ModelLists/RefuelVerseList";
@@ -14,19 +15,26 @@ class AdminWithoutRouter extends Component {
         super(props);
         this.renderTabs = this.renderTabs.bind(this);
         this.renderModelList = this.renderModelList.bind(this);
+        this.renderModelListWithCreate = this.renderModelListWithCreate.bind(this);
+        this.renderModelListWithImport = this.renderModelListWithImport.bind(this);
         this.loadModels = this.loadModels.bind(this);
         this.changeTab = this.changeTab.bind(this);
+        this.import = this.import.bind(this);
 
         let tab = window.location.href.split('#').length === 2 ? window.location.href.split('#')[1] : 'category';
 
         this.state = {
             activeTab: tab,
             models: null,
+            uploadedFile: null,
         }
 
         switch (this.state.activeTab) {
             case 'category':
                 this.modelService = this.props.categoryService;
+                break;
+            case 'clothes':
+                this.modelService = this.props.clothesService;
                 break;
             case 'color':
                 this.modelService = this.props.colorService;
@@ -80,6 +88,13 @@ class AdminWithoutRouter extends Component {
         this.loadModels(tab);
     }
 
+    import(file) {
+        this.props.clothesService.import(file)
+            .then((models) => {
+                this.setState({ models: models });
+            });
+    }
+
     renderTabs() {
         let tabs = [];
 
@@ -90,6 +105,13 @@ class AdminWithoutRouter extends Component {
                 onClick={() => this.changeTab('category', this.props.categoryService)}
             >
                 Category
+            </Tabs.Tab>
+            <Tabs.Tab 
+                href="#clothes"
+                active={this.state.activeTab === 'clothes'}
+                onClick={() => this.changeTab('clothes', this.props.clothesService)}
+            >
+                Clothes
             </Tabs.Tab>
             <Tabs.Tab 
                 href="#color"
@@ -162,16 +184,7 @@ class AdminWithoutRouter extends Component {
         );
     }
 
-    renderModelList(createUrl, buttonName) {
-        let modelList = <RefuelModelList modelService={this.modelService} models={this.state.models} loadModels={this.loadModels} activeTab={this.state.activeTab} />;
-
-        if (this.state.activeTab === 'user') {
-            modelList = <RefuelUserList modelService={this.modelService} models={this.state.models} loadModels={this.loadModels} activeTab={this.state.activeTab} />;
-        } else if (this.state.activeTab === 'group') {
-            modelList = <RefuelGroupList modelService={this.modelService} models={this.state.models} loadModels={this.loadModels} activeTab={this.state.activeTab} />;
-        } else if (this.state.activeTab === 'verse') {
-            modelList = <RefuelVerseList modelService={this.modelService} models={this.state.models} loadModels={this.loadModels} activeTab={this.state.activeTab} />;
-        }
+    renderModelListWithCreate(modelList, createUrl, buttonName) {
         return (
             <Section>
                 <Container>
@@ -190,6 +203,48 @@ class AdminWithoutRouter extends Component {
         );
     }
 
+    renderModelListWithImport(modelList, createUrl, buttonName) {
+        return (
+            <Section>
+                <Container>
+                    <Columns>
+                        <Columns.Column size="one-third">
+                            <Button color="refuel" renderAs="a" href={createUrl}>New {buttonName}</Button>
+                            <Form.InputFile color="refuel-grey" value={this.state.uploadedFile} label="Import Clothes"
+                                onClick={() => this.setState({ uploadedFile: null })}
+                                onChange={(e) => {
+                                        this.setState({ uploadedFile: e.target.files });
+                                        this.import(e.target.files[0]);
+                                    }
+                                }
+                             />
+                        </Columns.Column>
+                    </Columns>
+                    <Columns>
+                        <Columns.Column>
+                            {modelList}
+                        </Columns.Column>
+                    </Columns>
+                </Container>
+            </Section>
+        );
+    }
+
+    renderModelList(createUrl, buttonName) {
+        let modelList = <RefuelModelList modelService={this.modelService} models={this.state.models} loadModels={this.loadModels} activeTab={this.state.activeTab} />;
+
+        if (this.state.activeTab === 'user') {
+            modelList = <RefuelUserList modelService={this.modelService} models={this.state.models} loadModels={this.loadModels} activeTab={this.state.activeTab} />;
+        } else if (this.state.activeTab === 'clothes') {
+            modelList = <RefuelClothesList modelService={this.modelService} models={this.state.models} loadModels={this.loadModels} activeTab={this.state.activeTab} />;
+        } else if (this.state.activeTab === 'group') {
+            modelList = <RefuelGroupList modelService={this.modelService} models={this.state.models} loadModels={this.loadModels} activeTab={this.state.activeTab} />;
+        } else if (this.state.activeTab === 'verse') {
+            modelList = <RefuelVerseList modelService={this.modelService} models={this.state.models} loadModels={this.loadModels} activeTab={this.state.activeTab} />;
+        }
+        return this.state.activeTab === 'clothes' ? this.renderModelListWithImport(modelList, createUrl, buttonName) : this.renderModelListWithCreate(modelList, createUrl, buttonName);
+    }
+
     render() {
         let createUrl = '/pantry-admin';
         let bannerTitle = '';
@@ -203,6 +258,11 @@ class AdminWithoutRouter extends Component {
                 createUrl += '/category/new';
                 bannerTitle = 'Manage Categories';
                 buttonName = 'Category';
+                break;
+            case 'clothes':
+                createUrl += '/clothes/new';
+                bannerTitle = 'Manage Clothes';
+                buttonName = 'Clothing';
                 break;
             case 'color':
                 createUrl += '/color/new';
