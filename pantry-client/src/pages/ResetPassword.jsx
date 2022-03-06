@@ -10,7 +10,7 @@ export default class ResetPassword extends Component {
     constructor(props) {
         super(props);
         if (!this.props.token) {
-            this.props.history.push('/home'); // redirect if no token
+            this.props.router.push('/home'); // redirect if no token
         }
 
         this.resetPassword = this.resetPassword.bind(this);
@@ -19,8 +19,6 @@ export default class ResetPassword extends Component {
             token: this.props.token,
             valid: false,
         };
-
-        this.props.path[1].active = true;
 
         this.validateToken(this.props.token);
     }
@@ -34,7 +32,7 @@ export default class ResetPassword extends Component {
                     dismissible: true,
                     animate: { in: 'fadeIn', out: 'fadeOut' },
                 })
-                this.props.history.push('/home');
+                this.props.router.push('/home');
             });
     }
 
@@ -49,7 +47,7 @@ export default class ResetPassword extends Component {
         return this.state.valid ? (
             <div>
                 <RefuelBanner title="Reset Password" />
-                <RefuelBreadcrumbs path={this.props.path} />
+                <RefuelBreadcrumbs location={this.props.router.location} />
                 <Section>
                     <Container>
                         <Columns>

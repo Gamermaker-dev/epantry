@@ -63,7 +63,6 @@ class AdminWithoutRouter extends Component {
             default:
                 break;
         }
-        this.props.path[1].active = true;
 
         // kick things off by loading the models        
         this.loadModels(this.state.activeTab);
@@ -311,7 +310,7 @@ class AdminWithoutRouter extends Component {
         return (
             <div>
                 <RefuelBanner title={bannerTitle} subtitle={bannerSubtitle}></RefuelBanner>
-                <RefuelBreadcrumbs path={this.props.path} />
+                <RefuelBreadcrumbs location={this.props.router.location} />
                 {this.renderTabs()}
                 {this.renderModelList(createUrl, buttonName)}
             </div>

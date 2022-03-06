@@ -76,7 +76,7 @@ export default class RefuelNavbar extends Component {
                             <Navbar.Item href="/">
                                 Home
                             </Navbar.Item>
-                            <Navbar.Item href="#">
+                            <Navbar.Item href="/pantry">
                                 Pantry
                             </Navbar.Item>
                             <Navbar.Item href="/about">
@@ -87,7 +87,7 @@ export default class RefuelNavbar extends Component {
                             </Navbar.Item>
                         </Navbar.Container>
                         <Navbar.Container align="right">
-                            <Navbar.Item href="#">
+                            <Navbar.Item href="/register">
                                 Sign Up
                             </Navbar.Item>
                         </Navbar.Container>

@@ -12,8 +12,6 @@ import RefuelVerseOfTheDay from "../components/RefuelVerseOfTheDay";
 export default class Home extends Component {
     constructor(props) {
        super(props);
-
-       this.props.path[0].active = true;
     }
 
     render() {
@@ -22,7 +20,7 @@ export default class Home extends Component {
                 title="ReFuel ePantry"
                 subtitle="Loving People Safely"
             ></RefuelBanner>,
-            <RefuelBreadcrumbs path={this.props.path} />,
+            <RefuelBreadcrumbs location={this.props.router.location} />,
             <RefuelVerseOfTheDay />,
         ];
 

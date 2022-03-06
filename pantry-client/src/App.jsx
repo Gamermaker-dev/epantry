@@ -98,7 +98,7 @@ class App extends Component {
                   currency={this.state.user ? this.state.user.currency : 0}
                   logout={this.logout}
                  {...this.props}></RefuelHeader>
-                <RefuelRouter {...this.props}></RefuelRouter>
+                <RefuelRouter login={this.login} {...this.props}></RefuelRouter>
                 <RefuelFooter {...this.props}></RefuelFooter>
             </div>
         );

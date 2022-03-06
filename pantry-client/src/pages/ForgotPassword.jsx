@@ -12,8 +12,6 @@ export default class ForgotPassword extends Component {
             email: undefined,
             emailSent: false,
         };
-
-        this.props.path[1].active = true;
     }
 
     sendResetEmail(email) {
@@ -55,7 +53,7 @@ export default class ForgotPassword extends Component {
         return (
             <div>
                 <RefuelBanner title="Forgot Password" />
-                <RefuelBreadcrumbs path={this.props.path} />
+                <RefuelBreadcrumbs location={this.props.router.location} />
                 <Section>
                     <Container>
                         <Columns>

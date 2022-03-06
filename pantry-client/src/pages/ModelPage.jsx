@@ -16,11 +16,7 @@ export default class ModelPage extends Component {
             },
         };
 
-        this.modelId = this.props.id;
-        
-        this.props.path[1].url += `#${this.props.modelName}`;
-        this.props.path[2].url += this.modelId;
-        this.props.path[2].active = true;
+        this.modelId = this.props.params.id;
 
         this.getModel(this.modelId);
     }
@@ -37,7 +33,7 @@ export default class ModelPage extends Component {
     createModel(name, active) {
         this.props.modelService.create({name: name, is_active: active})
             .then((model) => {
-                window.location.href = `http://localhost:8000${this.props.path[1].url}`;
+                window.location.href = `http://localhost:8000/pantry-admin/${this.props.modelName}`;
             });
     }
 

@@ -44,7 +44,7 @@ class Pantry extends Component {
         return this.state.loading ? <RefuelLoadBar /> : (
             <div>
                 <RefuelBanner title="Pantry" subtitle="Everything Is Free" />
-                <RefuelBreadcrumbs location={this.props.location} />
+                <RefuelBreadcrumbs location={this.props.router.location} />
                 <Section>
                     <Container>
                         <Columns multiline={true}>

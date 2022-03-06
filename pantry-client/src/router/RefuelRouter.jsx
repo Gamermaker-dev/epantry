@@ -22,6 +22,7 @@ import GroupModelPage from "../pages/ModelPages/GroupModelPage";
 import VerseModelPage from "../pages/ModelPages/VerseModelPage";
 import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
+import SignUp from "../pages/SignUp";
 
 export function RefuelRouter(props) {
     return (
@@ -52,6 +53,11 @@ export function RefuelRouter(props) {
                         <Profile {...props} />
                     } />
                 </Route>
+                <Route exact path="/register">
+                    <RefuelRoute page={
+                        <SignUp {...props} />
+                    } />
+                </Route>
                 <Route exact path="/forgotpassword">
                     <RefuelRoute page={
                         <ForgotPassword {...props} />
@@ -68,57 +74,57 @@ export function RefuelRouter(props) {
                     } />
                 </Route>
                 <Route exact path="/pantry-admin/category/:id">
-                    <RefuelRoute page={
+                    <RefuelRoute useParams={true} page={
                         <ModelPage modelName='category' modelService={props.categoryService} {...props} />
                     } />
                 </Route>
                 <Route exact path="/pantry-admin/clothes/:id">
-                    <RefuelRoute page={
+                    <RefuelRoute useParams={true} page={
                         <ModelPage modelName='clothes' modelService={props.clothesService} {...props} />
                     } />
                 </Route>
                 <Route exact path="/pantry-admin/color/:id">
-                    <RefuelRoute page={
+                    <RefuelRoute useParams={true} page={
                         <ModelPage modelName='color' modelService={props.colorService} {...props} />
                     } />
                 </Route>
                 <Route exact path="/pantry-admin/condition/:id">
-                    <RefuelRoute page={
+                    <RefuelRoute useParams={true} page={
                         <ModelPage modelName='condition' modelService={props.conditionService} {...props} />
                     } />
                 </Route>
                 <Route exact path="/pantry-admin/gender/:id">
-                    <RefuelRoute page={
+                    <RefuelRoute useParams={true} page={
                         <ModelPage modelName='gender' modelService={props.genderService} {...props} />
                     } />
                 </Route>
                 <Route exact path="/pantry-admin/group/:id">
-                    <RefuelRoute page={
+                    <RefuelRoute useParams={true} page={
                         <GroupModelPage modelName='group' modelService={props.groupService} {...props} />
                     } />
                 </Route>
                 <Route exact path="/pantry-admin/permission/:id">
-                    <RefuelRoute page={
+                    <RefuelRoute useParams={true} page={
                         <ModelPage modelName='permission' modelService={props.permissionService} {...props} />
                     } />
                 </Route>
                 <Route exact path="/pantry-admin/school/:id">
-                    <RefuelRoute page={
+                    <RefuelRoute useParams={true} page={
                         <ModelPage modelName='school' modelService={props.schoolService} {...props} />
                     } />
                 </Route>
                 <Route exact path="/pantry-admin/size/:id">
-                    <RefuelRoute page={
+                    <RefuelRoute useParams={true} page={
                         <ModelPage modelName='size' modelService={props.sizeService} {...props} />
                     } />
                 </Route>
                 <Route exact path="/pantry-admin/user/:id">
-                    <RefuelRoute page={
+                    <RefuelRoute useParams={true} page={
                         <UserModelPage modelName='user' modelService={props.userService} {...props} />
                     } />
                 </Route>
                 <Route exact path="/pantry-admin/verse/:id">
-                    <RefuelRoute page={
+                    <RefuelRoute useParams={true} page={
                         <VerseModelPage modelName='verse' modelService={props.verseService} {...props} />
                     } />
                 </Route>

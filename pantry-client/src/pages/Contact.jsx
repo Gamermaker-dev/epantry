@@ -11,8 +11,6 @@ import RefuelBreadcrumbs from "../components/RefuelBreadcrumbs";
 export default class Contact extends Component {
     constructor(props) {
        super(props);
-
-       this.props.path[1].active = true;
     }
 
     render() {
@@ -22,7 +20,7 @@ export default class Contact extends Component {
                     title="Contact Us"
                 >
                 </RefuelBanner>
-                <RefuelBreadcrumbs path={this.props.path} />
+                <RefuelBreadcrumbs location={this.props.router.location} />
                 <Section>
                     <Container>
                         <Columns>
